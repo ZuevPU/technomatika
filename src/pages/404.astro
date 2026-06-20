@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import DiamondPattern from '../components/DiamondPattern.astro';
+import { path } from '../utils/paths';
 ---
 
 <Layout title="404 — Страница не найдена · ТЕХНОМАТИКА">
@@ -21,7 +22,7 @@ import DiamondPattern from '../components/DiamondPattern.astro';
         Возможно, ссылка устарела или страница была перемещена.
       </p>
       <a
-        href="/"
+        href={path('/')}
         class="inline-flex items-center gap-2 px-7 py-3.5 bg-brand-yellow text-ink font-semibold rounded-lg hover:brightness-90 transition-all focus-visible:outline-2 focus-visible:outline-brand-yellow focus-visible:outline-offset-3"
       >
         ← На главную

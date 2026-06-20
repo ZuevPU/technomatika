@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import DiamondPattern from '../components/DiamondPattern.astro';
 import LectureCard from '../components/LectureCard.astro';
 import { getCollection } from 'astro:content';
+import { path } from '../utils/paths';
 
 const allLectures = await getCollection('lectures');
 const byModule = (moduleNum: number) =>
@@ -74,7 +75,7 @@ const modules = [
             Перейти к материалам
           </a>
           <a
-            href="/students"
+            href={path('/students')}
             class="btn-outline-white"
           >
             Программа для учеников
@@ -247,7 +248,7 @@ const modules = [
           ))}
         </div>
 
-        <a href="/students" class="btn-dark">
+        <a href={path('/students')} class="btn-dark">
           Открыть программу →
         </a>
       </div>

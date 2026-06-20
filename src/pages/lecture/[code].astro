@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { path } from '../../utils/paths';
 
 export async function getStaticPaths() {
   const lectures = await getCollection('lectures');
@@ -39,10 +40,10 @@ const iconMap = {
     <!-- Breadcrumbs -->
     <nav aria-label="Хлебные крошки" class="mb-8">
       <ol class="flex flex-wrap items-center gap-1.5 text-sm text-muted">
-        <li><a href="/" class="hover:text-ink transition-colors">Главная</a></li>
+        <li><a href={path('/')} class="hover:text-ink transition-colors">Главная</a></li>
         <li aria-hidden="true"><span class="text-line">/</span></li>
         <li>
-          <a href={`/#modules`} class="hover:text-ink transition-colors">
+          <a href={path('/#modules')} class="hover:text-ink transition-colors">
             Модуль {data.module}
           </a>
         </li>
@@ -189,7 +190,7 @@ const iconMap = {
     <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-8 border-t border-line" aria-label="Навигация по темам">
       {prev ? (
         <a
-          href={`/lecture/${prev.data.code.replace('.', '-')}`}
+          href={path(`/lecture/${prev.data.code.replace('.', '-')}`)}
           class="nav-adjacent nav-adjacent--prev"
         >
           <span class="text-xs text-muted mb-1">← Предыдущая тема</span>
@@ -199,7 +200,7 @@ const iconMap = {
 
       {next && (
         <a
-          href={`/lecture/${next.data.code.replace('.', '-')}`}
+          href={path(`/lecture/${next.data.code.replace('.', '-')}`)}
           class="nav-adjacent nav-adjacent--next sm:text-right"
         >
           <span class="text-xs text-muted mb-1">Следующая тема →</span>

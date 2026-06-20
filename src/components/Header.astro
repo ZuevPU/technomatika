@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import { path } from '../utils/paths';
 
 interface Props {
   dark?: boolean;
@@ -21,17 +22,17 @@ const bgClass = dark ? 'bg-brand-dark/95' : 'bg-white/95';
     <Logo dark={!dark} />
 
     <nav class="hidden md:flex items-center gap-6" aria-label="Основная навигация">
-      <a href="/#modules" class:list={['text-sm font-medium transition-colors', navTextColor]}>
+      <a href={path('/#modules')} class:list={['text-sm font-medium transition-colors', navTextColor]}>
         Программа
       </a>
-      <a href="/#materials" class:list={['text-sm font-medium transition-colors', navTextColor]}>
+      <a href={path('/#materials')} class:list={['text-sm font-medium transition-colors', navTextColor]}>
         Материалы
       </a>
-      <a href="/#whats-next" class:list={['text-sm font-medium transition-colors', navTextColor]}>
+      <a href={path('/#whats-next')} class:list={['text-sm font-medium transition-colors', navTextColor]}>
         Что дальше
       </a>
       <a
-        href="/students"
+        href={path('/students')}
         class="text-sm font-semibold px-4 py-2 rounded-lg border-2 border-brand-yellow text-brand-yellow hover:bg-brand-yellow hover:text-ink transition-colors"
       >
         Ученикам →
@@ -62,10 +63,10 @@ const bgClass = dark ? 'bg-brand-dark/95' : 'bg-white/95';
     aria-label="Мобильная навигация"
   >
     <nav class="flex flex-col px-4 py-4 gap-3">
-      <a href="/#modules" class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Программа</a>
-      <a href="/#materials" class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Материалы</a>
-      <a href="/#whats-next" class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Что дальше</a>
-      <a href="/students" class="text-sm font-semibold py-2 text-brand-yellow">Ученикам →</a>
+      <a href={path('/#modules')} class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Программа</a>
+      <a href={path('/#materials')} class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Материалы</a>
+      <a href={path('/#whats-next')} class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Что дальше</a>
+      <a href={path('/students')} class="text-sm font-semibold py-2 text-brand-yellow">Ученикам →</a>
     </nav>
   </div>
 </header>
