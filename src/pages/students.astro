@@ -1,0 +1,167 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DiamondPattern from '../components/DiamondPattern.astro';
+
+const directions = [
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="5" width="22" height="18" rx="2.5" stroke="#111312" stroke-width="1.8"/><path d="M9 14l3 3 7-7" stroke="#111312" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    title: 'Основы проектной деятельности',
+    desc: 'Постановка задачи, декомпозиция, командная работа и защита результата.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="#111312" stroke-width="1.8"/><path d="M10 14l2.5 2.5L18 10" stroke="#111312" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22l4-4M22 22l-4-4" stroke="#111312" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+    title: 'Робототехника',
+    desc: 'Конструирование, программирование и соревновательные проекты на платформах LEGO и Arduino.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="7" width="20" height="14" rx="2" stroke="#111312" stroke-width="1.8"/><path d="M9.5 13l3 3 6-6" stroke="#111312" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    title: 'Программирование',
+    desc: 'Python, Scratch, алгоритмическое мышление и решение олимпиадных задач.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="5" width="22" height="18" rx="2.5" stroke="#111312" stroke-width="1.8"/><path d="M8 14.5l3-3 3 3 3-3 3 3" stroke="#111312" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    title: 'Веб-разработка',
+    desc: 'HTML, CSS, JavaScript и создание первого собственного сайта-портфолио.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="10" cy="18" r="3.5" stroke="#111312" stroke-width="1.8"/><circle cx="18" cy="10" r="3.5" stroke="#111312" stroke-width="1.8"/><path d="M12.5 15.5l3-3" stroke="#111312" stroke-width="1.6" stroke-linecap="round"/></svg>`,
+    title: 'Графический дизайн',
+    desc: 'Теория цвета, типографика, Figma и создание брендинга учебного проекта.',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 23l5-8 5 5 4-6 4 9H5z" stroke="#111312" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="3" stroke="#111312" stroke-width="1.6"/></svg>`,
+    title: 'Прототипирование и моделирование',
+    desc: '3D-моделирование, прототипы в Tinkercad и печать на 3D-принтере.',
+  },
+];
+---
+
+<Layout
+  title="Программа для школьников — ТЕХНОМАТИКА"
+  description="Дополнительное образование для школьников по направлениям: проектная деятельность, робототехника, программирование, веб-разработка, дизайн, прототипирование."
+>
+
+  <!-- Hero -->
+  <section class="relative bg-brand-dark text-white overflow-hidden min-h-[420px] flex items-center">
+    <div class="absolute right-0 top-0 bottom-0 w-2/5 opacity-50">
+      <DiamondPattern variant="hero" />
+    </div>
+    <div class="absolute right-0 top-0 bottom-0 w-2/5 bg-gradient-to-r from-brand-dark via-brand-dark/50 to-transparent pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="max-w-xl">
+        <span class="soon-chip mb-5 inline-block">Скоро</span>
+        <h1 class="text-3xl md:text-5xl font-bold text-white mb-5 leading-tight" style="letter-spacing: -0.02em;">
+          Дополнительное образование<br/>для школьников
+        </h1>
+        <p class="text-white/60 text-base leading-relaxed">
+          Программа в разработке. Скоро здесь появится полный курс по цифровым компетенциям для учеников 7–11 классов.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Directions grid -->
+  <section class="bg-white py-20 md:py-24" aria-labelledby="directions-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <h2 id="directions-heading" class="text-3xl md:text-4xl font-semibold text-ink" style="letter-spacing: -0.01em;">
+          Направления
+        </h2>
+        <p class="mt-4 text-muted max-w-lg mx-auto leading-relaxed">
+          Шесть треков для разностороннего развития цифровых компетенций школьников.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {directions.map(dir => (
+          <div class="direction-card relative">
+            <div class="direction-icon" set:html={dir.icon} aria-hidden="true" />
+            <h3 class="text-base font-semibold text-ink mt-4 mb-2">{dir.title}</h3>
+            <p class="text-sm text-muted leading-relaxed">{dir.desc}</p>
+            <div class="mt-5">
+              <span class="coming-tag">Скоро</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-16 text-center">
+        <a href="/" class="btn-dark">
+          ← Вернуться на главную
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .soon-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 14px;
+    background: #F5E600;
+    color: #111312;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 4px;
+  }
+
+  .direction-card {
+    background: #fff;
+    border: 1.5px solid #E6E6E3;
+    border-radius: 12px;
+    padding: 28px;
+    transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
+  }
+  .direction-card:hover {
+    border-color: #111312;
+    box-shadow: 0 8px 24px rgba(17,19,18,0.10);
+    transform: translateY(-2px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .direction-card:hover { transform: none; }
+    .direction-card { transition: none; }
+  }
+
+  .direction-icon {
+    width: 52px;
+    height: 52px;
+    background: #F5E600;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .coming-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    background: #E6E6E3;
+    color: #6B6F6E;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+  }
+
+  .btn-dark {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 28px;
+    background: #111312;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .btn-dark:hover { opacity: 0.85; }
+  .btn-dark:focus-visible { outline: 2px solid #111312; outline-offset: 3px; }
+</style>

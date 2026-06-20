@@ -1,0 +1,228 @@
+---
+interface Material {
+  title: string;
+  url: string;
+  type: 'pdf' | 'link' | 'video' | 'file';
+}
+
+interface Props {
+  code: string;
+  title: string;
+  summary: string;
+  duration: string;
+  practiceTitle?: string;
+  slidesUrl: string | null;
+  transcriptUrl: string | null;
+  materials: Material[];
+  module: number;
+}
+
+const {
+  code,
+  title,
+  summary,
+  duration,
+  practiceTitle,
+  slidesUrl,
+  transcriptUrl,
+  materials,
+  module,
+} = Astro.props;
+
+const slug = code.replace('.', '-');
+const lectureUrl = `/lecture/${slug}`;
+---
+
+<article class="lecture-card bg-white border border-line rounded-card p-6 flex flex-col gap-4 transition-all duration-200 hover:-translate-y-0.5">
+  <div class="flex items-start justify-between gap-3">
+    <span class="chip-badge">{code}</span>
+    <span class="text-xs text-muted">{duration}</span>
+  </div>
+
+  <div class="flex-1">
+    <h3 class="text-[1.1rem] font-semibold text-ink leading-snug mb-2">
+      <a href={lectureUrl} class="hover:text-brand-dark transition-colors focus-ring">
+        {title}
+      </a>
+    </h3>
+    <p class="text-sm text-muted leading-relaxed">{summary}</p>
+
+    {practiceTitle && (
+      <div class="mt-3 flex items-start gap-2">
+        <svg class="shrink-0 mt-0.5" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <rect x="1" y="1" width="12" height="12" rx="2" stroke="#6B6F6E" stroke-width="1.5"/>
+          <path d="M4 7h6M4 4.5h6M4 9.5h4" stroke="#6B6F6E" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <span class="text-xs text-muted italic">{practiceTitle}</span>
+      </div>
+    )}
+  </div>
+
+  <div class="flex flex-wrap gap-2 pt-2 border-t border-line">
+    {slidesUrl ? (
+      <a
+        href={slidesUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="action-btn"
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M5 5.5l3 2-3 2V5.5z" fill="currentColor"/>
+        </svg>
+        Презентация
+      </a>
+    ) : (
+      <button class="action-btn-soon" disabled aria-disabled="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M5 5.5l3 2-3 2V5.5z" fill="currentColor"/>
+        </svg>
+        Презентация
+        <span class="soon-badge">Скоро</span>
+      </button>
+    )}
+
+    {transcriptUrl ? (
+      <a
+        href={transcriptUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="action-btn"
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 2.5h10M2 5h10M2 7.5h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        Транскрибинг
+      </a>
+    ) : (
+      <button class="action-btn-soon" disabled aria-disabled="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 2.5h10M2 5h10M2 7.5h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        Транскрибинг
+        <span class="soon-badge">Скоро</span>
+      </button>
+    )}
+
+    {materials.length > 0 ? (
+      <a href={lectureUrl} class="action-btn">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M7 1v8M4 6l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Материалы ({materials.length})
+      </a>
+    ) : (
+      <a href={lectureUrl} class="action-btn-outline">
+        Подробнее →
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .lecture-card {
+    box-shadow: 0 2px 8px 0 rgba(17,19,18,0.07);
+  }
+  .lecture-card:hover {
+    box-shadow: 0 8px 24px 0 rgba(17,19,18,0.12);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lecture-card {
+      transition: none;
+    }
+    .lecture-card:hover {
+      transform: none;
+    }
+  }
+
+  .chip-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    background: #F5E600;
+    color: #111312;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #111312;
+    background: #F5E600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: filter 0.15s;
+  }
+  .action-btn:hover {
+    filter: brightness(0.92);
+  }
+  .action-btn:focus-visible {
+    outline: 2px solid #111312;
+    outline-offset: 2px;
+  }
+
+  .action-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #111312;
+    background: transparent;
+    border: 1.5px solid #111312;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .action-btn-outline:hover {
+    background: #111312;
+    color: #fff;
+  }
+  .action-btn-outline:focus-visible {
+    outline: 2px solid #111312;
+    outline-offset: 2px;
+  }
+
+  .action-btn-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6B6F6E;
+    background: #f5f5f3;
+    border: none;
+    border-radius: 8px;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .soon-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 5px;
+    font-size: 10px;
+    font-weight: 600;
+    background: #e6e6e3;
+    color: #6B6F6E;
+    border-radius: 3px;
+    margin-left: 2px;
+  }
+
+  .focus-ring:focus-visible {
+    outline: 2px solid #111312;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+</style>

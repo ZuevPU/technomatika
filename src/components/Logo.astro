@@ -1,0 +1,19 @@
+---
+interface Props {
+  dark?: boolean;
+}
+const { dark = false } = Astro.props;
+const textColor = dark ? '#111312' : '#FFFFFF';
+---
+<a href="/" class="flex items-center gap-3 no-underline group" aria-label="Техноматика — на главную">
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="3" y="5" width="16" height="11" rx="1" transform="skewX(-12)" fill="#F5E600"/>
+    <rect x="21" y="24" width="16" height="11" rx="1" transform="skewX(-12)" fill="#F5E600"/>
+  </svg>
+  <span
+    class="font-bold tracking-tight uppercase text-[1.1rem] leading-none transition-opacity group-hover:opacity-80"
+    style={`color: ${textColor}; font-family: Inter, sans-serif; letter-spacing: 0.06em;`}
+  >
+    ТЕХНОМАТИКА
+  </span>
+</a>

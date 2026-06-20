@@ -1,0 +1,48 @@
+---
+import Logo from './Logo.astro';
+---
+
+<footer class="bg-brand-dark text-white/60 pt-12 pb-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-white/10">
+      <div>
+        <Logo dark={false} />
+        <p class="mt-4 text-sm leading-relaxed text-white/50">
+          Программа повышения квалификации педагогов.<br/>
+          «Информатика в междисциплинарных проектах: Архитектура образовательных решений»
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-white font-semibold text-sm uppercase tracking-widest mb-4">Разделы</h3>
+        <nav class="flex flex-col gap-2">
+          <a href="/#modules" class="text-sm text-white/50 hover:text-white transition-colors">Программа модулей</a>
+          <a href="/#materials" class="text-sm text-white/50 hover:text-white transition-colors">Учебные материалы</a>
+          <a href="/#whats-next" class="text-sm text-white/50 hover:text-white transition-colors">Что дальше</a>
+          <a href="/students" class="text-sm text-white/50 hover:text-white transition-colors">Ученикам</a>
+        </nav>
+      </div>
+
+      <div>
+        <h3 class="text-white font-semibold text-sm uppercase tracking-widest mb-4">Контакты</h3>
+        <div class="flex flex-col gap-2">
+          <span class="text-sm text-white/40 italic">email@technomatika.ru</span>
+          <span class="text-sm text-white/40 italic">Контакт организатора</span>
+        </div>
+
+        <h3 class="text-white font-semibold text-sm uppercase tracking-widest mt-6 mb-3">Партнёры</h3>
+        <div class="flex flex-wrap gap-3">
+          <div class="w-20 h-8 rounded bg-white/10 flex items-center justify-center text-xs text-white/30">Партнёр 1</div>
+          <div class="w-20 h-8 rounded bg-white/10 flex items-center justify-center text-xs text-white/30">Партнёр 2</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+      <p class="text-xs text-white/30">
+        &copy; {new Date().getFullYear()} ТЕХНОМАТИКА. Все материалы предназначены для участников программы.
+      </p>
+      <p class="text-xs text-white/20">КПК · 48 ак. часов · Удостоверение о повышении квалификации</p>
+    </div>
+  </div>
+</footer>

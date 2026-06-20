@@ -1,0 +1,88 @@
+---
+import Logo from './Logo.astro';
+
+interface Props {
+  dark?: boolean;
+}
+const { dark = false } = Astro.props;
+const navTextColor = dark ? 'text-white/80 hover:text-white' : 'text-ink/70 hover:text-ink';
+const borderColor = dark ? 'border-white/10' : 'border-line';
+const bgClass = dark ? 'bg-brand-dark/95' : 'bg-white/95';
+---
+
+<header
+  class:list={[
+    'sticky top-0 z-50 backdrop-blur-sm border-b transition-colors',
+    bgClass,
+    borderColor,
+  ]}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
+    <Logo dark={!dark} />
+
+    <nav class="hidden md:flex items-center gap-6" aria-label="Основная навигация">
+      <a href="/#modules" class:list={['text-sm font-medium transition-colors', navTextColor]}>
+        Программа
+      </a>
+      <a href="/#materials" class:list={['text-sm font-medium transition-colors', navTextColor]}>
+        Материалы
+      </a>
+      <a href="/#whats-next" class:list={['text-sm font-medium transition-colors', navTextColor]}>
+        Что дальше
+      </a>
+      <a
+        href="/students"
+        class="text-sm font-semibold px-4 py-2 rounded-lg border-2 border-brand-yellow text-brand-yellow hover:bg-brand-yellow hover:text-ink transition-colors"
+      >
+        Ученикам →
+      </a>
+    </nav>
+
+    <!-- Mobile menu button -->
+    <button
+      id="menu-toggle"
+      class:list={['md:hidden p-2 rounded-lg', dark ? 'text-white' : 'text-ink']}
+      aria-label="Открыть меню"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class:list={['hidden md:hidden border-t', borderColor, dark ? 'bg-brand-dark' : 'bg-white']}
+    role="dialog"
+    aria-label="Мобильная навигация"
+  >
+    <nav class="flex flex-col px-4 py-4 gap-3">
+      <a href="/#modules" class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Программа</a>
+      <a href="/#materials" class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Материалы</a>
+      <a href="/#whats-next" class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Что дальше</a>
+      <a href="/students" class="text-sm font-semibold py-2 text-brand-yellow">Ученикам →</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const isOpen = !menu?.classList.contains('hidden');
+    menu?.classList.toggle('hidden');
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+  });
+  // Close on nav link click
+  menu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      toggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
