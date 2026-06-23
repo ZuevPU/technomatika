@@ -1,0 +1,19 @@
+# GitVerse Pages (Jekyll) — исключаем исходники Astro из сборки.
+# Для публикации сайта укажите в настройках Pages папку: docs
+title: ТЕХНОМАТИКА
+exclude:
+  - src
+  - node_modules
+  - dist
+  - .gitverse
+  - .github
+  - public
+  - package.json
+  - package-lock.json
+  - astro.config.mjs
+  - tailwind.config.mjs
+  - tsconfig.json
+  - screenshot.mjs
+  - README.md
+  - logo-CHZ-yellow.png
+  - .gitignore

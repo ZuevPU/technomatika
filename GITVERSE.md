@@ -1,0 +1,27 @@
+# Публикация на GitVerse Pages
+
+Это Astro-проект. Встроенный Jekyll **не умеет** собирать `.astro`-файлы.
+
+## Настройка (один раз)
+
+1. Откройте **Настройки → Страницы**
+2. **Источник:** выберите **Воркфлоу** (рекомендуется)
+
+   Либо, если остаётесь на режиме **Ветка**:
+   - **Папка:** `docs`
+   - В корне уже есть `.nojekyll` и `_config.yml`, которые отключают обработку исходников
+
+3. Сохраните и перезапустите публикацию
+
+## Обновление сайта
+
+```bash
+npm run build:pages
+git add docs/
+git commit -m "Update published site"
+git push origin master
+```
+
+Workflow `.gitverse/workflows/deploy.yml` делает то же самое автоматически при push в `master`.
+
+**Адрес сайта:** https://mashukOnline.gitverse.site/technomatics
