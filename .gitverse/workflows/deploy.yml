@@ -1,14 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitVerse Pages
 
 on:
   push:
     branches: [master]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -21,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -32,22 +27,21 @@ jobs:
 
       - name: Build site
         env:
-          ASTRO_SITE: https://zuevpu.github.io
-          ASTRO_BASE: /technomatika
+          ASTRO_SITE: https://mashukOnline.gitverse.site
+          ASTRO_BASE: /technomatics
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Disable Jekyll processing
+        run: touch dist/.nojekyll
+
+      - name: Upload pages artifact
+        uses: gitverse/upload-pages-artifact@v1.0.0
         with:
           path: dist
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy to GitVerse Pages
+        uses: gitverse/deploy-pages@v1.0.0

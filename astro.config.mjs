@@ -2,8 +2,8 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'https://zuevpu.github.io',
-  base: '/technomatika',
+  site: process.env.ASTRO_SITE ?? 'https://mashukOnline.gitverse.site',
+  base: process.env.ASTRO_BASE ?? '/technomatics',
   integrations: [tailwind()],
   output: 'static',
 });
