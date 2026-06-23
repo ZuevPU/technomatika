@@ -15,19 +15,19 @@ const modules = [
   {
     num: 1,
     title: 'Фундаментальные основы информатики',
-    desc: 'Информация, системы счисления, алгоритмика — базовая концептуальная рамка курса, без которой невозможно осознанное педагогическое проектирование цифровых решений.',
+    desc: 'Базовая концептуальная рамка курса: от природы информации до мультиагентного ИИ — фундамент осознанного педагогического проектирования цифровых решений.',
     lectures: byModule(1),
   },
   {
     num: 2,
     title: 'Методология извлечения информационных моделей',
-    desc: 'Как строить модели предметных областей, структурировать знания в базах данных и превращать данные в убедительные визуальные нарративы.',
+    desc: 'Как структурировать знания, выстраивать современную архитектуру ИТ-решений и превращать данные в убедительные визуальные нарративы.',
     lectures: byModule(2),
   },
   {
     num: 3,
     title: 'Педагогическое проектирование образовательного продукта',
-    desc: 'Learning Experience Design, создание вовлекающего цифрового контента и современные подходы к оцениванию — от идеи до готового образовательного продукта.',
+    desc: 'От основ проектной деятельности до готового цифрового продукта: создание вовлекающего контента и современные подходы к оцениванию.',
     lectures: byModule(3),
   },
 ];
@@ -53,7 +53,7 @@ const modules = [
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-28">
       <div class="max-w-2xl">
         <div class="inline-flex items-center gap-2 mb-6">
-          <span class="chip-yellow">Программа повышения квалификации для учителей информатики</span>
+          <span class="chip-green">Программа повышения квалификации для учителей информатики</span>
         </div>
 
         <h1 class="text-hero font-bold text-white mb-5 leading-tight" style="letter-spacing: -0.02em;">
@@ -162,7 +162,7 @@ const modules = [
   <section id="whats-next" class="bg-brand-dark text-white" aria-labelledby="next-heading">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24">
       <div class="max-w-2xl mb-14">
-        <span class="chip-yellow mb-4 inline-block">После очного интенсива</span>
+        <span class="chip-green mb-4 inline-block">После очного интенсива</span>
         <h2 id="next-heading" class="text-h2 font-semibold text-white">
           Что дальше
         </h2>
@@ -176,7 +176,7 @@ const modules = [
         <div class="bg-white/5 border border-white/10 rounded-card p-8">
           <div class="flex items-center gap-3 mb-4">
             <span class="module-number-light">4</span>
-            <span class="text-xs font-semibold uppercase tracking-widest text-brand-yellow">Онлайн-модуль</span>
+            <span class="text-xs font-semibold uppercase tracking-widest text-brand-green">Онлайн-модуль</span>
           </div>
           <h3 class="text-xl font-semibold text-white mb-3">Онлайн-обучение в СДО</h3>
           <p class="text-white/60 text-sm leading-relaxed">
@@ -186,7 +186,7 @@ const modules = [
             {['Видео-лекции и интерактивные задания', 'Самостоятельная проработка тем', 'Промежуточная аттестация'].map(item => (
               <li class="flex items-center gap-2 text-sm text-white/70">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M2.5 7l3 3 6-6" stroke="#F5E600" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2.5 7l3 3 6-6" stroke="#7CC142" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 {item}
               </li>
@@ -198,7 +198,7 @@ const modules = [
         <div class="bg-white/5 border border-white/10 rounded-card p-8">
           <div class="flex items-center gap-3 mb-4">
             <span class="module-number-light">5</span>
-            <span class="text-xs font-semibold uppercase tracking-widest text-brand-yellow">Сопровождающий трек</span>
+            <span class="text-xs font-semibold uppercase tracking-widest text-brand-green">Сопровождающий трек</span>
           </div>
           <h3 class="text-xl font-semibold text-white mb-3">Поддержка и защита проекта</h3>
           <p class="text-white/60 text-sm leading-relaxed">
@@ -208,7 +208,7 @@ const modules = [
             {['Взаимная экспертиза проектов (peer-review)', 'Консультации с методистами', 'Финальная защита и удостоверение о ПК'].map(item => (
               <li class="flex items-center gap-2 text-sm text-white/70">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M2.5 7l3 3 6-6" stroke="#F5E600" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M2.5 7l3 3 6-6" stroke="#7CC142" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 {item}
               </li>
@@ -220,7 +220,7 @@ const modules = [
   </section>
 
   <!-- ============ STUDENTS CTA ============ -->
-  <section class="relative bg-brand-yellow overflow-hidden" aria-labelledby="students-heading">
+  <section class="relative bg-brand-green overflow-hidden" aria-labelledby="students-heading">
     <div class="absolute inset-0 opacity-10">
       <DiamondPattern variant="texture" />
     </div>
@@ -266,11 +266,11 @@ const modules = [
     line-height: 1.2;
   }
 
-  .chip-yellow {
+  .chip-green {
     display: inline-flex;
     align-items: center;
     padding: 4px 12px;
-    background: #F5E600;
+    background: #7CC142;
     color: #111312;
     font-size: 12px;
     font-weight: 600;
@@ -297,7 +297,7 @@ const modules = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #F5E600;
+    background: #7CC142;
     color: #111312;
     font-size: 18px;
     font-weight: 700;
@@ -311,7 +311,7 @@ const modules = [
     align-items: center;
     justify-content: center;
     background: rgba(255,255,255,0.1);
-    color: #F5E600;
+    color: #7CC142;
     font-size: 18px;
     font-weight: 700;
     border-radius: 8px;
@@ -322,7 +322,7 @@ const modules = [
     display: inline-flex;
     align-items: center;
     padding: 14px 28px;
-    background: #F5E600;
+    background: #7CC142;
     color: #111312;
     font-size: 15px;
     font-weight: 600;
@@ -331,7 +331,7 @@ const modules = [
     transition: filter 0.15s;
   }
   .btn-primary:hover { filter: brightness(0.93); }
-  .btn-primary:focus-visible { outline: 2px solid #F5E600; outline-offset: 3px; }
+  .btn-primary:focus-visible { outline: 2px solid #7CC142; outline-offset: 3px; }
 
   .btn-outline-white {
     display: inline-flex;

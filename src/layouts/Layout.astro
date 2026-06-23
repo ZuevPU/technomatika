@@ -38,6 +38,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://technoma
     <title>{title}</title>
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href={path('/favicon.svg')} />
+    <meta name="theme-color" content="#111312" />
 
     <!-- OpenGraph -->
     <meta property="og:type" content="website" />
@@ -71,7 +72,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://technoma
 
 <style is:global>
   :root {
-    --brand-yellow: #F5E600;
+    --brand-green: #7CC142;
     --brand-dark: #111312;
     --brand-white: #FFFFFF;
     --ink: #111312;
@@ -104,7 +105,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://technoma
     left: 1rem;
     z-index: 9999;
     padding: 0.5rem 1rem;
-    background: var(--brand-yellow);
+    background: var(--brand-green);
     color: var(--ink);
     font-weight: 600;
     border-radius: 0 0 8px 8px;
