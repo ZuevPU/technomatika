@@ -22,6 +22,4 @@ git commit -m "Update published site"
 git push origin master
 ```
 
-Workflow `.gitverse/workflows/deploy.yml` делает то же самое автоматически при push в `master`.
-
 **Адрес сайта:** https://mashukOnline.gitverse.site/technomatics

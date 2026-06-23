@@ -1,8 +1,9 @@
 ---
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/600.css';
-import '@fontsource/inter/700.css';
+import '@fontsource/inter/cyrillic-400.css';
+import '@fontsource/inter/cyrillic-500.css';
+import '@fontsource/inter/cyrillic-600.css';
+import '@fontsource/inter/cyrillic-700.css';
+import '@fontsource/inter/latin-400.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BottomNav from '../components/BottomNav.astro';
@@ -24,7 +25,9 @@ const {
   noFooter = false,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://technomatika.ru');
+const siteOrigin = Astro.site ?? new URL('https://mashukOnline.gitverse.site');
+const canonicalURL = new URL(Astro.url.pathname, siteOrigin);
+const ogImage = new URL(path('/TM_View.png'), siteOrigin).href;
 ---
 
 <!doctype html>
@@ -38,6 +41,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://technoma
     <title>{title}</title>
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href={`${path('/favicon.svg')}?v=2`} />
+    <link rel="apple-touch-icon" href={path('/TM_View.png')} />
     <meta name="theme-color" content="#111312" />
 
     <!-- OpenGraph -->
@@ -45,12 +49,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://technoma
     <meta property="og:title" content={ogTitle ?? title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="ru_RU" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle ?? title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
   </head>
   <body class="bg-brand-white font-sans text-ink antialiased">
     <a href="#main-content" class="skip-link">Перейти к содержанию</a>
@@ -60,6 +66,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://technoma
     </main>
     {!noFooter && <Footer />}
     <BottomNav />
+
+    <!-- Yandex.Metrika counter -->
+    <script is:inline>
+      (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110085227', 'ym');
+
+      ym(110085227, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript>
+      <div><img src="https://mc.yandex.ru/watch/110085227" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
   </body>
 
   <script is:inline>

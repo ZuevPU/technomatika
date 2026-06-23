@@ -43,19 +43,19 @@ const directions = [
 >
 
   <!-- Hero -->
-  <section class="relative bg-brand-dark text-white overflow-hidden min-h-[420px] flex items-center">
-    <div class="absolute right-0 top-0 bottom-0 w-2/5 opacity-50">
+  <section class="relative bg-brand-dark text-white overflow-hidden min-h-0 sm:min-h-[420px] flex items-center">
+    <div class="absolute right-0 top-0 bottom-0 w-2/5 sm:w-2/5 opacity-40 sm:opacity-50 pointer-events-none">
       <DiamondPattern variant="hero" />
     </div>
-    <div class="absolute right-0 top-0 bottom-0 w-2/5 bg-gradient-to-r from-brand-dark via-brand-dark/50 to-transparent pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-2/5 sm:w-2/5 bg-gradient-to-r from-brand-dark via-brand-dark/80 to-transparent pointer-events-none" aria-hidden="true"></div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-      <div class="max-w-xl">
-        <span class="soon-chip mb-5 inline-block">Скоро</span>
-        <h1 class="text-3xl md:text-5xl font-bold text-white mb-5 leading-tight" style="letter-spacing: -0.02em;">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 md:py-20 w-full">
+      <div class="max-w-xl w-full min-w-0">
+        <span class="soon-chip mb-4 sm:mb-5 inline-block">Скоро</span>
+        <h1 class="text-students-hero font-bold text-white mb-4 sm:mb-5 leading-tight break-words">
           Дополнительное образование<br/>для школьников
         </h1>
-        <p class="text-white/60 text-base leading-relaxed">
+        <p class="text-white/60 text-sm sm:text-base leading-relaxed">
           Программа в разработке. Скоро здесь появится курс по цифровым компетенциям для учеников 7–11 классов.
         </p>
       </div>
@@ -98,6 +98,12 @@ const directions = [
 </Layout>
 
 <style>
+  .text-students-hero {
+    font-size: clamp(1.75rem, 6vw, 3rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+
   .soon-chip {
     display: inline-flex;
     align-items: center;
