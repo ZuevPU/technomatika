@@ -35,10 +35,10 @@ const iconMap = {
   description={data.summary}
 >
 
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-16">
 
     <!-- Breadcrumbs -->
-    <nav aria-label="Хлебные крошки" class="mb-8">
+    <nav aria-label="Хлебные крошки" class="mb-6 md:mb-8">
       <ol class="flex flex-wrap items-center gap-1.5 text-sm text-muted">
         <li><a href={path('/')} class="hover:text-ink transition-colors">Главная</a></li>
         <li aria-hidden="true"><span class="text-line">/</span></li>
@@ -138,7 +138,7 @@ const iconMap = {
               </svg>
             </div>
             <div>
-              <div class="font-semibold text-sm text-ink">Транскрибинг лекции</div>
+              <div class="font-semibold text-sm text-ink">Конспект лекции</div>
               <div class="text-xs text-muted mt-0.5">Открыть текст →</div>
             </div>
           </a>
@@ -150,7 +150,7 @@ const iconMap = {
               </svg>
             </div>
             <div>
-              <div class="font-semibold text-sm text-muted">Транскрибинг лекции</div>
+              <div class="font-semibold text-sm text-muted">Конспект лекции</div>
               <div class="soon-tag mt-1">Скоро</div>
             </div>
           </div>
@@ -187,7 +187,7 @@ const iconMap = {
     </article>
 
     <!-- Prev / Next navigation -->
-    <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-8 border-t border-line" aria-label="Навигация по темам">
+    <nav class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-8 border-t border-line" aria-label="Навигация по темам">
       {prev ? (
         <a
           href={path(`/lecture/${prev.data.code.replace('.', '-')}`)}
@@ -275,11 +275,14 @@ const iconMap = {
   .nav-adjacent {
     display: flex;
     flex-direction: column;
-    padding: 14px 16px;
+    justify-content: center;
+    padding: 16px 18px;
+    min-height: 68px;
     border: 1.5px solid var(--line);
     border-radius: 10px;
     text-decoration: none;
     transition: border-color 0.15s, box-shadow 0.15s;
+    touch-action: manipulation;
   }
   .nav-adjacent:hover {
     border-color: #111312;

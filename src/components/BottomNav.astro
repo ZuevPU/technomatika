@@ -1,0 +1,122 @@
+---
+import { path } from '../utils/paths';
+const raw = Astro.url.pathname;
+
+const isStudents = raw.includes('/students');
+const isLecture  = raw.includes('/lecture/');
+const isHome     = !isStudents && !isLecture;
+---
+
+<nav class="bottom-nav" aria-label="Нижняя навигация">
+  <a
+    href={path('/')}
+    class:list={['bottom-tab', { 'bottom-tab--active': isHome }]}
+    aria-current={isHome ? 'page' : undefined}
+  >
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <path d="M2 10.5L11 3l9 7.5V20a1 1 0 01-1 1H14v-5.5H8V21H3a1 1 0 01-1-1v-9.5z"
+        stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    </svg>
+    <span>Главная</span>
+  </a>
+
+  <a
+    href={path('/#materials')}
+    class:list={['bottom-tab', { 'bottom-tab--active': isLecture }]}
+    aria-current={isLecture ? 'page' : undefined}
+  >
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <path d="M4 2h10l4 4v14a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z"
+        stroke="currentColor" stroke-width="1.7"/>
+      <path d="M14 2v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M7 9h8M7 12h8M7 15h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <span>Лекции</span>
+  </a>
+
+  <a
+    href={path('/students')}
+    class:list={['bottom-tab', { 'bottom-tab--active': isStudents }]}
+    aria-current={isStudents ? 'page' : undefined}
+  >
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <circle cx="11" cy="7.5" r="3.5" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M3 20c0-4.418 3.582-8 8-8s8 3.582 8 8"
+        stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </svg>
+    <span>Ученикам</span>
+  </a>
+</nav>
+
+<style>
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.97);
+    border-top: 1px solid #E6E6E3;
+    display: flex;
+    align-items: stretch;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -2px 16px rgba(17, 19, 18, 0.09);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Скрываем на десктопе (≥ 768px) */
+  @media (min-width: 768px) {
+    .bottom-nav {
+      display: none;
+    }
+  }
+
+  .bottom-tab {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 10px 4px;
+    min-height: 60px;
+    text-decoration: none;
+    color: #6B6F6E;
+    font-size: 10px;
+    font-weight: 500;
+    font-family: Inter, sans-serif;
+    letter-spacing: 0.01em;
+    transition: color 0.15s, background 0.1s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+  }
+
+  .bottom-tab:active {
+    background: rgba(245, 230, 0, 0.14);
+  }
+
+  /* Yellow top indicator bar */
+  .bottom-tab--active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 2.5px;
+    background: #F5E600;
+    border-radius: 0 0 3px 3px;
+  }
+
+  .bottom-tab--active {
+    color: #111312;
+    font-weight: 600;
+  }
+
+  .bottom-tab--active svg {
+    stroke-width: 2.1;
+  }
+</style>

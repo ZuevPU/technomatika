@@ -5,6 +5,7 @@ import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import BottomNav from '../components/BottomNav.astro';
 import { path } from '../utils/paths';
 
 interface Props {
@@ -30,7 +31,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://technoma
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- Telegram Mini App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js" is:inline></script>
     <meta name="description" content={description} />
     <title>{title}</title>
     <link rel="canonical" href={canonicalURL} />
@@ -55,7 +58,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://technoma
       <slot />
     </main>
     {!noFooter && <Footer />}
+    <BottomNav />
   </body>
+
+  <script is:inline>
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+    }
+  </script>
 </html>
 
 <style is:global>
@@ -107,5 +118,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://technoma
   :focus-visible {
     outline: 2px solid var(--ink);
     outline-offset: 2px;
+  }
+
+  /* Touch — remove 300ms tap delay everywhere */
+  a, button, [role="button"] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Mobile: pad body so content isn't hidden under the fixed bottom nav */
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    }
   }
 </style>

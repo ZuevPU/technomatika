@@ -35,13 +35,13 @@ const modules = [
 
 <Layout
   title="ТЕХНОМАТИКА — Материалы КПК"
-  description="Учебные материалы очного модуля КПК «Информатика в междисциплинарных проектах: Архитектура образовательных решений». Презентации, транскрибинги, практикумы."
+  description="Учебные материалы очного модуля КПК «Информатика в междисциплинарных проектах: Архитектура образовательных решений». Презентационные материалы, конспекты лекций, практикумы."
   ogTitle="ТЕХНОМАТИКА: Информатика в междисциплинарных проектах"
   darkHeader={true}
 >
 
   <!-- ============ HERO ============ -->
-  <section class="relative bg-brand-dark text-white overflow-hidden min-h-[560px] flex items-center">
+  <section class="relative bg-brand-dark text-white overflow-hidden min-h-[480px] md:min-h-[560px] flex items-center">
     <!-- Geometric pattern (right half only) -->
     <div class="absolute right-0 top-0 bottom-0 w-1/2 md:w-2/5 opacity-60">
       <DiamondPattern variant="hero" />
@@ -50,10 +50,10 @@ const modules = [
     <!-- Gradient fade so pattern blends with content -->
     <div class="absolute right-0 top-0 bottom-0 w-1/2 md:w-2/5 bg-gradient-to-r from-brand-dark via-brand-dark/60 to-transparent pointer-events-none" aria-hidden="true"></div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-28">
       <div class="max-w-2xl">
         <div class="inline-flex items-center gap-2 mb-6">
-          <span class="chip-yellow">Повышение квалификации · 48 ак. часов</span>
+          <span class="chip-yellow">Программа повышения квалификации для учителей информатики</span>
         </div>
 
         <h1 class="text-hero font-bold text-white mb-5 leading-tight" style="letter-spacing: -0.02em;">
@@ -63,20 +63,19 @@ const modules = [
         </h1>
 
         <p class="text-lg text-white/70 mb-10 max-w-xl leading-relaxed">
-          Архитектура образовательных решений.<br/>
-          Все материалы очного модуля — в одном месте.
+          Все материалы — в одном месте.
         </p>
 
-        <div class="flex flex-wrap gap-4">
+        <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
           <a
             href="#modules"
-            class="btn-primary"
+            class="btn-primary text-center"
           >
             Перейти к материалам
           </a>
           <a
             href={path('/students')}
-            class="btn-outline-white"
+            class="btn-outline-white text-center"
           >
             Программа для учеников
           </a>
@@ -90,7 +89,7 @@ const modules = [
     <div class="absolute inset-0">
       <DiamondPattern variant="texture" />
     </div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-20">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
         {[
           { value: '48', label: 'академических часов' },
@@ -111,19 +110,19 @@ const modules = [
 
   <!-- ============ MODULES / MATERIALS ============ -->
   <section id="modules" class="bg-white" aria-labelledby="modules-heading">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-20 pb-4">
       <div class="mb-14 text-center">
         <span class="chip-dark mb-4 inline-block">Очный интенсив · 3 дня</span>
         <h2 id="modules-heading" class="text-h2 font-semibold text-ink">
           Материалы по модулям
         </h2>
         <p class="mt-4 text-muted max-w-xl mx-auto text-base leading-relaxed">
-          Три модуля очного обучения. Презентации, транскрибинги лекций и материалы для самостоятельной работы — по каждой теме.
+          Три модуля очного обучения. Презентационные материалы, конспекты лекций, дополнительные и самостоятельные работы — по каждой теме.
         </p>
       </div>
     </div>
 
-    <div id="materials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 flex flex-col gap-20">
+    <div id="materials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 md:pb-24 flex flex-col gap-10 md:gap-20">
       {modules.map(mod => (
         <div>
           <!-- Module header -->
@@ -232,7 +231,7 @@ const modules = [
           Программа для школьников
         </h2>
         <p class="text-ink/70 text-base leading-relaxed mb-8 max-w-lg">
-          Параллельно с КПК для педагогов — программа дополнительного образования для учеников по ключевым направлениям цифровых компетенций.
+          Программа дополнительного образования для учеников по ключевым направлениям цифровых компетенций.
         </p>
 
         <div class="flex flex-wrap gap-2 mb-10">

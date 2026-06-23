@@ -18,9 +18,10 @@ const bgClass = dark ? 'bg-brand-dark/95' : 'bg-white/95';
     borderColor,
   ]}
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 md:h-16 flex items-center justify-between gap-6">
     <Logo dark={!dark} />
 
+    <!-- Desktop nav only — mobile uses bottom tab bar -->
     <nav class="hidden md:flex items-center gap-6" aria-label="Основная навигация">
       <a href={path('/#modules')} class:list={['text-sm font-medium transition-colors', navTextColor]}>
         Программа
@@ -38,52 +39,5 @@ const bgClass = dark ? 'bg-brand-dark/95' : 'bg-white/95';
         Ученикам →
       </a>
     </nav>
-
-    <!-- Mobile menu button -->
-    <button
-      id="menu-toggle"
-      class:list={['md:hidden p-2 rounded-lg', dark ? 'text-white' : 'text-ink']}
-      aria-label="Открыть меню"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <line x1="3" y1="12" x2="21" y2="12"/>
-        <line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    </button>
-  </div>
-
-  <!-- Mobile menu -->
-  <div
-    id="mobile-menu"
-    class:list={['hidden md:hidden border-t', borderColor, dark ? 'bg-brand-dark' : 'bg-white']}
-    role="dialog"
-    aria-label="Мобильная навигация"
-  >
-    <nav class="flex flex-col px-4 py-4 gap-3">
-      <a href={path('/#modules')} class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Программа</a>
-      <a href={path('/#materials')} class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Материалы</a>
-      <a href={path('/#whats-next')} class:list={['text-sm font-medium py-2 transition-colors', navTextColor]}>Что дальше</a>
-      <a href={path('/students')} class="text-sm font-semibold py-2 text-brand-yellow">Ученикам →</a>
-    </nav>
   </div>
 </header>
-
-<script>
-  const toggle = document.getElementById('menu-toggle');
-  const menu = document.getElementById('mobile-menu');
-  toggle?.addEventListener('click', () => {
-    const isOpen = !menu?.classList.contains('hidden');
-    menu?.classList.toggle('hidden');
-    toggle.setAttribute('aria-expanded', String(!isOpen));
-  });
-  // Close on nav link click
-  menu?.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      menu.classList.add('hidden');
-      toggle?.setAttribute('aria-expanded', 'false');
-    });
-  });
-</script>

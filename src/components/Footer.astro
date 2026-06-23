@@ -33,17 +33,22 @@ import { path } from '../utils/paths';
 
         <h3 class="text-white font-semibold text-sm uppercase tracking-widest mt-6 mb-3">Партнёры</h3>
         <div class="flex flex-wrap gap-3">
-          <div class="w-20 h-8 rounded bg-white/10 flex items-center justify-center text-xs text-white/30">Партнёр 1</div>
-          <div class="w-20 h-8 rounded bg-white/10 flex items-center justify-center text-xs text-white/30">Партнёр 2</div>
+          <img
+            src={path('/partners/logo-chz-yellow.png')}
+            alt="Честный ЗНАК"
+            width="160"
+            height="48"
+            class="h-10 w-auto rounded"
+            loading="lazy"
+          />
         </div>
       </div>
     </div>
 
-    <div class="pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+    <div class="pt-6">
       <p class="text-xs text-white/30">
         &copy; {new Date().getFullYear()} ТЕХНОМАТИКА. Все материалы предназначены для участников программы.
       </p>
-      <p class="text-xs text-white/20">КПК · 48 ак. часов · Удостоверение о повышении квалификации</p>
     </div>
   </div>
 </footer>
