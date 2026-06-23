@@ -41,28 +41,28 @@ const modules = [
 >
 
   <!-- ============ HERO ============ -->
-  <section class="relative bg-brand-dark text-white overflow-hidden min-h-[480px] md:min-h-[560px] flex items-center">
+  <section class="relative bg-brand-dark text-white overflow-hidden min-h-0 sm:min-h-[480px] md:min-h-[560px] flex items-center">
     <!-- Geometric pattern (right half only) -->
-    <div class="absolute right-0 top-0 bottom-0 w-1/2 md:w-2/5 opacity-60">
+    <div class="absolute right-0 top-0 bottom-0 w-2/5 sm:w-1/2 md:w-2/5 opacity-40 sm:opacity-60 pointer-events-none">
       <DiamondPattern variant="hero" />
     </div>
 
     <!-- Gradient fade so pattern blends with content -->
-    <div class="absolute right-0 top-0 bottom-0 w-1/2 md:w-2/5 bg-gradient-to-r from-brand-dark via-brand-dark/60 to-transparent pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-2/5 sm:w-1/2 md:w-2/5 bg-gradient-to-r from-brand-dark via-brand-dark/80 to-transparent pointer-events-none" aria-hidden="true"></div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-28">
-      <div class="max-w-2xl">
-        <div class="inline-flex items-center gap-2 mb-6">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-28 w-full">
+      <div class="max-w-2xl w-full min-w-0">
+        <div class="mb-4 sm:mb-6">
           <span class="chip-green">Программа повышения квалификации для учителей информатики</span>
         </div>
 
-        <h1 class="text-hero font-bold text-white mb-5 leading-tight" style="letter-spacing: -0.02em;">
+        <h1 class="text-hero font-bold text-white mb-4 sm:mb-5 leading-tight break-words">
           Информатика<br/>
           в&nbsp;междисциплинарных<br/>
           проектах
         </h1>
 
-        <p class="text-lg text-white/70 mb-10 max-w-xl leading-relaxed">
+        <p class="text-base sm:text-lg text-white/70 mb-8 sm:mb-10 max-w-xl leading-relaxed">
           Все материалы — в одном месте.
         </p>
 
@@ -258,8 +258,9 @@ const modules = [
 
 <style>
   .text-hero {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    line-height: 1.1;
+    font-size: clamp(1.75rem, 6.5vw, 4.5rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
   }
   .text-h2 {
     font-size: clamp(2rem, 3.5vw, 2.5rem);
@@ -267,16 +268,26 @@ const modules = [
   }
 
   .chip-green {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 12px;
+    display: inline-block;
+    max-width: 100%;
+    padding: 6px 10px;
     background: #7CC142;
     color: #111312;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
+    line-height: 1.35;
     border-radius: 4px;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+  @media (min-width: 640px) {
+    .chip-green {
+      padding: 4px 12px;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+    }
   }
   .chip-dark {
     display: inline-flex;
