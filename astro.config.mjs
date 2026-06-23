@@ -6,4 +6,8 @@ export default defineConfig({
   base: process.env.ASTRO_BASE ?? '/technomatics',
   integrations: [tailwind()],
   output: 'static',
+  build: {
+    // GitVerse/Jekyll ignore folders starting with "_", so CSS never deploys from "_astro".
+    assets: 'assets',
+  },
 });
