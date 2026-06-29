@@ -182,9 +182,11 @@ const iconMap = {
     </section>
 
     <!-- Lecture content (markdown) -->
-    <article class="prose prose-neutral max-w-none mb-16">
-      <Content />
-    </article>
+    {data.materials.length > 0 && (
+      <article class="prose prose-neutral max-w-none mb-16">
+        <Content />
+      </article>
+    )}
 
     <!-- Prev / Next navigation -->
     <nav class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-8 border-t border-line" aria-label="Навигация по темам">
