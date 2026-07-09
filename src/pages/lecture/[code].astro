@@ -93,7 +93,7 @@ const iconMap = {
         <!-- Slides -->
         {data.slidesUrl ? (
           <a
-            href={data.slidesUrl}
+            href={path(data.slidesUrl)}
             target="_blank"
             rel="noopener noreferrer"
             class="material-card material-card--active"
@@ -127,7 +127,7 @@ const iconMap = {
         <!-- Transcript -->
         {data.transcriptUrl ? (
           <a
-            href={data.transcriptUrl}
+            href={path(data.transcriptUrl)}
             target="_blank"
             rel="noopener noreferrer"
             class="material-card material-card--active"
@@ -138,8 +138,10 @@ const iconMap = {
               </svg>
             </div>
             <div>
-              <div class="font-semibold text-sm text-ink">Конспект лекции</div>
-              <div class="text-xs text-muted mt-0.5">Открыть текст →</div>
+              <div class="font-semibold text-sm text-ink">{data.transcriptLabel ?? 'Конспект лекции'}</div>
+              <div class="text-xs text-muted mt-0.5">
+                {data.transcriptUrl?.startsWith('http') ? 'Открыть конструктор →' : 'Открыть текст →'}
+              </div>
             </div>
           </a>
         ) : (

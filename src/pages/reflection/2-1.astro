@@ -1,0 +1,533 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { path } from '../../utils/paths';
+import {
+  REFLECTION_META,
+  SCALES,
+  SKILL_BLOCKS,
+  SKILL_STATEMENTS,
+  SKILL_SCALE_LABELS,
+  CONCLUSIONS,
+} from '../../data/reflection-2-1';
+
+const scalesJson = JSON.stringify(SCALES);
+const skillBlocksJson = JSON.stringify(SKILL_BLOCKS);
+const skillStatementsJson = JSON.stringify(SKILL_STATEMENTS);
+const skillScaleLabelsJson = JSON.stringify(SKILL_SCALE_LABELS);
+const conclusionsJson = JSON.stringify(CONCLUSIONS);
+const metaJson = JSON.stringify(REFLECTION_META);
+---
+
+<Layout
+  title="Рефлексия 2.1 — Архитектура IT-проектов — ТЕХНОМАТИКА"
+  description="Диагностика компетенций: 6 шкал установок, 12 навыков, паутинка и профиль по блокам."
+>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-16" id="reflection-app">
+
+    <nav aria-label="Хлебные крошки" class="mb-6 md:mb-8">
+      <ol class="flex flex-wrap items-center gap-1.5 text-sm text-muted">
+        <li><a href={path('/')} class="hover:text-ink transition-colors">Главная</a></li>
+        <li aria-hidden="true"><span class="text-line">/</span></li>
+        <li><a href={path('/lecture/2-1')} class="hover:text-ink transition-colors">2.1</a></li>
+        <li aria-hidden="true"><span class="text-line">/</span></li>
+        <li><a href={path('/transcript/2-1')} class="hover:text-ink transition-colors">Конспект</a></li>
+        <li aria-hidden="true"><span class="text-line">/</span></li>
+        <li aria-current="page" class="text-ink font-medium">Рефлексия</li>
+      </ol>
+    </nav>
+
+    <!-- INTRO -->
+    <section id="step-intro" class="step" data-step="intro">
+      <p class="eyebrow">Рефлексия · тема 2.1</p>
+      <h1 class="page-title">{REFLECTION_META.introTitle}</h1>
+      <div class="intro-body space-y-4 mb-8">
+        {REFLECTION_META.introBody.map((p) => (
+          <p class="body-text">{p}</p>
+        ))}
+      </div>
+      <div class="parts-preview mb-10">
+        <div class="part-chip"><span class="part-num">1</span> 6 шкал установок · 0–10</div>
+        <div class="part-chip"><span class="part-num">2</span> 12 навыков · 1–5</div>
+      </div>
+      <button type="button" class="btn-primary" id="btn-start">Начать диагностику</button>
+    </section>
+
+    <!-- SCALES -->
+    <section id="step-scales" class="step hidden" data-step="scales" hidden>
+      <div class="step-top mb-6">
+        <div class="flex items-end justify-between gap-4 mb-3">
+          <p class="eyebrow mb-0">Часть 1 · шкала <span id="scale-num">1</span> из 6</p>
+          <p class="text-sm text-muted tabular-nums" id="scale-value-label">5</p>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="scale-progress" style="width: 16%"></div></div>
+      </div>
+      <article class="card">
+        <p class="card-axis" id="scale-axis"></p>
+        <h2 class="card-title" id="scale-title"></h2>
+        <div class="slider-block">
+          <div class="poles">
+            <p class="pole pole--0" id="pole-0"></p>
+            <p class="pole pole--10" id="pole-10"></p>
+          </div>
+          <div class="slider-wrap">
+            <div class="slider-zones" aria-hidden="true">
+              <span class="sz sz-gap"></span><span class="sz sz-mid"></span><span class="sz sz-ok"></span>
+            </div>
+            <input type="range" id="scale-slider" min="0" max="10" step="1" value="5" aria-label="Оценка от 0 до 10" />
+            <div class="slider-ticks" aria-hidden="true">
+              {Array.from({ length: 11 }, (_, i) => (<span>{i}</span>))}
+            </div>
+          </div>
+          <p class="zone-live" id="zone-live">Зона баланса</p>
+          <details class="hint-details"><summary>Подсказка</summary><p id="scale-hint"></p></details>
+        </div>
+      </article>
+      <div class="nav-row">
+        <button type="button" class="btn-ghost" id="btn-scale-prev" disabled>← Назад</button>
+        <button type="button" class="btn-primary" id="btn-scale-next">Далее →</button>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="step-skills" class="step hidden" data-step="skills" hidden>
+      <div class="step-top mb-6">
+        <div class="flex items-center justify-between gap-3 mb-3">
+          <span class="block-pill" id="skill-block-pill">А · Архитектура</span>
+          <span class="question-counter tabular-nums" id="skill-counter">1 / 12</span>
+        </div>
+        <p class="part-label">Часть 2 · навыки</p>
+        <div class="progress-track"><div class="progress-fill" id="skill-progress" style="width: 8%"></div></div>
+      </div>
+      <article class="card">
+        <p class="question-eyebrow" id="skill-eyebrow"></p>
+        <h2 class="question-text" id="skill-text"></h2>
+        <div class="picker-block">
+          <div class="segmented" id="segmented" role="radiogroup" aria-label="Оценка от 1 до 5"></div>
+          <p class="picker-caption" id="picker-caption"></p>
+        </div>
+      </article>
+      <div class="nav-row">
+        <button type="button" class="btn-ghost" id="btn-skill-prev">← Назад</button>
+        <button type="button" class="btn-primary" id="btn-skill-next">Далее →</button>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="step-result" class="step hidden" data-step="result" hidden>
+      <p class="eyebrow">Ваш профиль</p>
+      <h1 class="page-title page-title--sm">Установки и навыки</h1>
+      <p class="result-sub">Два среза одной практики</p>
+
+      <div class="result-grid mb-10">
+        <div class="result-panel">
+          <h2 class="panel-title">Установки</h2>
+          <p class="panel-mean"><span id="scale-mean">—</span> <small>из 10</small></p>
+          <div class="radar-wrap">
+            <svg id="radar-svg" viewBox="0 0 480 480" class="radar-svg" aria-hidden="true"></svg>
+          </div>
+          <div class="score-list compact" id="scale-list"></div>
+        </div>
+        <div class="result-panel">
+          <h2 class="panel-title">Навыки</h2>
+          <p class="panel-mean"><span id="skill-mean">—</span> <small>из 5</small></p>
+          <div class="bar-chart" id="bar-chart"></div>
+        </div>
+      </div>
+
+      <div class="tags-row mb-10">
+        <div class="tag-card tag-strong">
+          <p class="tag-label">Сильные установки</p>
+          <p class="tag-value" id="strong-scales">—</p>
+        </div>
+        <div class="tag-card tag-grow">
+          <p class="tag-label">Зоны роста (установки)</p>
+          <p class="tag-value" id="grow-scales">—</p>
+        </div>
+      </div>
+
+      <article class="conclusion-card">
+        <p class="conclusion-badge" id="conclusion-badge"></p>
+        <h2 class="conclusion-title" id="conclusion-title"></h2>
+        <p class="body-text" id="conclusion-lead"></p>
+        <h3 class="actions-title" id="actions-title"></h3>
+        <ol class="actions-list" id="actions-list"></ol>
+        <p class="body-text conclusion-closing" id="conclusion-closing"></p>
+      </article>
+
+      <div class="nav-row mt-10">
+        <button type="button" class="btn-ghost" id="btn-restart">Пройти ещё раз</button>
+        <a href={path('/transcript/2-1')} class="btn-primary btn-link">← К конспекту</a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script define:vars={{ scalesJson, skillBlocksJson, skillStatementsJson, skillScaleLabelsJson, conclusionsJson }}>
+  const SCALES = JSON.parse(scalesJson);
+  const SKILL_BLOCKS = JSON.parse(skillBlocksJson);
+  const SKILL_STATEMENTS = JSON.parse(skillStatementsJson);
+  const SKILL_SCALE_LABELS = JSON.parse(skillScaleLabelsJson);
+  const CONCLUSIONS = JSON.parse(conclusionsJson);
+
+  const scaleValues = Array(SCALES.length).fill(5);
+  const skillValues = Array(SKILL_STATEMENTS.length).fill(3);
+  let scaleIndex = 0;
+  let skillIndex = 0;
+  const blockById = Object.fromEntries(SKILL_BLOCKS.map((b) => [b.id, b]));
+
+  const els = {
+    intro: document.getElementById('step-intro'),
+    scales: document.getElementById('step-scales'),
+    skills: document.getElementById('step-skills'),
+    result: document.getElementById('step-result'),
+    scaleNum: document.getElementById('scale-num'),
+    scaleValueLabel: document.getElementById('scale-value-label'),
+    scaleProgress: document.getElementById('scale-progress'),
+    scaleAxis: document.getElementById('scale-axis'),
+    scaleTitle: document.getElementById('scale-title'),
+    pole0: document.getElementById('pole-0'),
+    pole10: document.getElementById('pole-10'),
+    scaleSlider: document.getElementById('scale-slider'),
+    zoneLive: document.getElementById('zone-live'),
+    scaleHint: document.getElementById('scale-hint'),
+    btnScalePrev: document.getElementById('btn-scale-prev'),
+    btnScaleNext: document.getElementById('btn-scale-next'),
+    skillBlockPill: document.getElementById('skill-block-pill'),
+    skillCounter: document.getElementById('skill-counter'),
+    skillProgress: document.getElementById('skill-progress'),
+    skillEyebrow: document.getElementById('skill-eyebrow'),
+    skillText: document.getElementById('skill-text'),
+    segmented: document.getElementById('segmented'),
+    pickerCaption: document.getElementById('picker-caption'),
+    btnSkillPrev: document.getElementById('btn-skill-prev'),
+    btnSkillNext: document.getElementById('btn-skill-next'),
+    btnStart: document.getElementById('btn-start'),
+    btnRestart: document.getElementById('btn-restart'),
+    scaleMean: document.getElementById('scale-mean'),
+    skillMean: document.getElementById('skill-mean'),
+    radarSvg: document.getElementById('radar-svg'),
+    scaleList: document.getElementById('scale-list'),
+    barChart: document.getElementById('bar-chart'),
+    strongScales: document.getElementById('strong-scales'),
+    growScales: document.getElementById('grow-scales'),
+    conclusionBadge: document.getElementById('conclusion-badge'),
+    conclusionTitle: document.getElementById('conclusion-title'),
+    conclusionLead: document.getElementById('conclusion-lead'),
+    actionsTitle: document.getElementById('actions-title'),
+    actionsList: document.getElementById('actions-list'),
+    conclusionClosing: document.getElementById('conclusion-closing'),
+  };
+
+  function zoneFor(v) {
+    if (v <= 3) return { key: 'gap', label: 'Зона осознания' };
+    if (v <= 7) return { key: 'mid', label: 'Зона баланса' };
+    return { key: 'ok', label: 'Зона мастерства' };
+  }
+
+  function mean(arr) {
+    return Math.round((arr.reduce((a, b) => a + b, 0) / arr.length) * 10) / 10;
+  }
+
+  function showStep(name) {
+    [els.intro, els.scales, els.skills, els.result].forEach((el) => {
+      const active = el.dataset.step === name;
+      el.classList.toggle('hidden', !active);
+      el.hidden = !active;
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderScale() {
+    const s = SCALES[scaleIndex];
+    const v = scaleValues[scaleIndex];
+    els.scaleNum.textContent = String(scaleIndex + 1);
+    els.scaleProgress.style.width = `${((scaleIndex + 1) / SCALES.length) * 100}%`;
+    els.scaleAxis.textContent = s.axis;
+    els.scaleTitle.textContent = s.title;
+    els.pole0.textContent = s.pole0;
+    els.pole10.textContent = s.pole10;
+    els.scaleHint.textContent = s.hint;
+    els.scaleSlider.value = String(v);
+    els.btnScalePrev.disabled = scaleIndex === 0;
+    els.btnScaleNext.textContent = scaleIndex === SCALES.length - 1 ? 'К навыкам →' : 'Далее →';
+    updateScaleUI(v);
+  }
+
+  function updateScaleUI(v) {
+    const z = zoneFor(v);
+    els.scaleValueLabel.textContent = String(v);
+    els.zoneLive.textContent = z.label;
+    els.zoneLive.dataset.zone = z.key;
+    els.scaleSlider.style.setProperty('--pct', `${(v / 10) * 100}%`);
+  }
+
+  function renderSkill() {
+    const s = SKILL_STATEMENTS[skillIndex];
+    const block = blockById[s.blockId];
+    const v = skillValues[s.id - 1];
+    els.skillBlockPill.textContent = `${block.letter} · ${block.shortTitle}`;
+    els.skillCounter.textContent = `${s.id} / ${SKILL_STATEMENTS.length}`;
+    els.skillProgress.style.width = `${((skillIndex + 1) / SKILL_STATEMENTS.length) * 100}%`;
+    els.skillEyebrow.textContent = `Навык ${s.id} · ${block.title}`;
+    els.skillText.textContent = s.text;
+    els.btnSkillNext.textContent = skillIndex === SKILL_STATEMENTS.length - 1 ? 'Показать результат →' : 'Далее →';
+
+    els.segmented.innerHTML = [1, 2, 3, 4, 5].map((n) => `
+      <button type="button" class="seg-btn${v === n ? ' is-active' : ''}" data-value="${n}" aria-pressed="${v === n}">
+        <span class="seg-num">${n}</span>
+      </button>
+    `).join('');
+    els.segmented.style.setProperty('--active-index', String(v - 1));
+    els.pickerCaption.textContent = SKILL_SCALE_LABELS[String(v)];
+
+    els.segmented.querySelectorAll('.seg-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const val = Number(btn.dataset.value);
+        skillValues[s.id - 1] = val;
+        els.segmented.querySelectorAll('.seg-btn').forEach((b) => {
+          b.classList.toggle('is-active', b === btn);
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+        els.segmented.style.setProperty('--active-index', String(val - 1));
+        els.pickerCaption.textContent = SKILL_SCALE_LABELS[String(val)];
+      });
+    });
+  }
+
+  function blockSkillAvg(blockId) {
+    const items = SKILL_STATEMENTS.filter((x) => x.blockId === blockId).map((x) => skillValues[x.id - 1]);
+    return mean(items);
+  }
+
+  function pickConclusion(scaleMean, skillMean) {
+    if (scaleMean >= 7.5 && skillMean >= 3.6) return CONCLUSIONS.find((c) => c.id === 'expert');
+    if (scaleMean <= 3 && skillMean <= 2.5) return CONCLUSIONS.find((c) => c.id === 'start');
+    if (scaleMean >= 6 && skillMean <= 2.5) return CONCLUSIONS.find((c) => c.id === 'theory');
+    if (skillMean >= 3.6 && scaleMean <= 3) return CONCLUSIONS.find((c) => c.id === 'tools');
+    if (scaleMean >= 4 && scaleMean <= 7 && skillMean >= 2.6 && skillMean <= 3.5) return CONCLUSIONS.find((c) => c.id === 'balance');
+    return CONCLUSIONS.find((c) => c.id === 'mixed');
+  }
+
+  function topItems(items, pred, limit = 3) {
+    return items.filter(pred).sort((a, b) => Math.abs(b.v - (pred === ((x) => x.v >= 8) ? 10 : 0)) - Math.abs(a.v - (pred === ((x) => x.v >= 8) ? 10 : 0))).slice(0, limit);
+  }
+
+  function drawRadar(arr) {
+    const size = 480, cx = size / 2, cy = size / 2, maxR = 110, n = arr.length;
+    const step = (Math.PI * 2) / n, start = -Math.PI / 2;
+    const pt = (i, r) => { const a = start + i * step; return [cx + Math.cos(a) * r, cy + Math.sin(a) * r]; };
+    const defs = `<defs><radialGradient id="rf21"><stop offset="0%" stop-color="#7CC142" stop-opacity="0.35"/><stop offset="100%" stop-color="#7CC142" stop-opacity="0.05"/></radialGradient></defs>`;
+    const rings = [0.2, 0.4, 0.6, 0.8, 1].map((t, i) => `<circle cx="${cx}" cy="${cy}" r="${maxR * t}" class="radar-ring" style="stroke-opacity:${i === 4 ? 0.2 : 0.1}"/>`).join('');
+    const axes = arr.map((_, i) => { const [x, y] = pt(i, maxR); return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" class="radar-axis"/>`; }).join('');
+    const pts = arr.map((v, i) => pt(i, (v / 10) * maxR));
+    const poly = `<polygon points="${pts.map((p) => p.join(',')).join(' ')}" class="radar-poly"/><polygon points="${pts.map((p) => p.join(',')).join(' ')}" class="radar-stroke"/>`;
+    const dots = pts.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3.5" class="radar-dot"/>`).join('');
+    const labels = SCALES.map((s, i) => { const [x, y] = pt(i, maxR + 32); return `<text x="${x}" y="${y}" text-anchor="middle" class="radar-label">${s.axis}</text>`; }).join('');
+    els.radarSvg.innerHTML = defs + rings + axes + poly + dots + labels;
+  }
+
+  function renderResult() {
+    const sMean = mean(scaleValues);
+    const skMean = mean(skillValues);
+    const conclusion = pickConclusion(sMean, skMean);
+
+    els.scaleMean.textContent = String(sMean).replace('.', ',');
+    els.skillMean.textContent = String(skMean).replace('.', ',');
+    drawRadar(scaleValues);
+
+    els.scaleList.innerHTML = SCALES.map((s, i) => {
+      const v = scaleValues[i];
+      const z = zoneFor(v);
+      return `<div class="score-row" data-zone="${z.key}"><span>${s.axis}</span><span class="score-val">${v}</span></div>`;
+    }).join('');
+
+    els.barChart.innerHTML = SKILL_BLOCKS.map((b) => {
+      const score = blockSkillAvg(b.id);
+      const pct = (score / 5) * 100;
+      return `<div class="bar-row">
+        <span class="bar-label">${b.letter}. ${b.shortTitle}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+        <span class="bar-val">${String(score).replace('.', ',')}</span>
+      </div>`;
+    }).join('');
+
+    const strong = SCALES.map((s, i) => ({ name: s.axis, v: scaleValues[i] })).filter((x) => x.v >= 8).sort((a, b) => b.v - a.v).slice(0, 3);
+    const grow = SCALES.map((s, i) => ({ name: s.axis, v: scaleValues[i] })).filter((x) => x.v <= 3).sort((a, b) => a.v - b.v).slice(0, 3);
+    els.strongScales.textContent = strong.length ? strong.map((x) => x.name).join(', ') : 'пока без явных опор';
+    els.growScales.textContent = grow.length ? grow.map((x) => x.name).join(', ') : 'критичных провалов нет';
+
+    let lead = conclusion.lead;
+    if (conclusion.id === 'balance' && (strong.length || grow.length)) {
+      lead += strong.length ? ` Сильные зоны: ${strong.map((x) => x.name).join(', ')}.` : '';
+      lead += grow.length ? ` Зоны роста: ${grow.map((x) => x.name).join(', ')}.` : '';
+    }
+
+    els.conclusionBadge.textContent = conclusion.badge;
+    els.conclusionTitle.textContent = conclusion.title;
+    els.conclusionLead.textContent = lead;
+    els.actionsTitle.textContent = conclusion.actionsTitle;
+    els.actionsList.innerHTML = conclusion.actions.map((a) => `<li>${a}</li>`).join('');
+    els.conclusionClosing.textContent = conclusion.closing;
+  }
+
+  els.btnStart.addEventListener('click', () => { scaleIndex = 0; showStep('scales'); renderScale(); });
+  els.scaleSlider.addEventListener('input', () => {
+    const v = Number(els.scaleSlider.value);
+    scaleValues[scaleIndex] = v;
+    updateScaleUI(v);
+  });
+  els.btnScalePrev.addEventListener('click', () => { if (scaleIndex) { scaleIndex--; renderScale(); } });
+  els.btnScaleNext.addEventListener('click', () => {
+    if (scaleIndex < SCALES.length - 1) { scaleIndex++; renderScale(); return; }
+    skillIndex = 0; showStep('skills'); renderSkill();
+  });
+  els.btnSkillPrev.addEventListener('click', () => {
+    if (skillIndex > 0) { skillIndex--; renderSkill(); return; }
+    scaleIndex = SCALES.length - 1; showStep('scales'); renderScale();
+  });
+  els.btnSkillNext.addEventListener('click', () => {
+    if (skillIndex < SKILL_STATEMENTS.length - 1) { skillIndex++; renderSkill(); return; }
+    renderResult(); showStep('result');
+  });
+  els.btnRestart.addEventListener('click', () => {
+    scaleValues.fill(5); skillValues.fill(3); scaleIndex = 0; skillIndex = 0; showStep('intro');
+  });
+</script>
+
+<style>
+  .hidden { display: none !important; }
+  .eyebrow { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #6B6F6E; margin-bottom: 0.75rem; }
+  .page-title { font-size: clamp(1.75rem, 4vw, 2.35rem); font-weight: 700; color: #111312; letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 1.25rem; }
+  .page-title--sm { font-size: clamp(1.5rem, 3vw, 2rem); }
+  .body-text { color: #111312; line-height: 1.75; font-size: 1rem; letter-spacing: -0.01em; }
+  .result-sub { color: #6B6F6E; font-size: 0.9375rem; margin-bottom: 1.5rem; }
+
+  .parts-preview { display: flex; flex-direction: column; gap: 0.5rem; }
+  .part-chip { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem; background: #f5f5f7; border-radius: 14px; font-size: 0.875rem; color: #1c1c1e; border: 1px solid rgba(0,0,0,0.04); }
+  .part-num { width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 8px; font-weight: 700; font-size: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+
+  .btn-primary, .btn-ghost, .btn-link {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 48px;
+    padding: 0.75rem 1.35rem; border-radius: 14px; font-size: 0.9375rem; font-weight: 600;
+    letter-spacing: -0.01em; cursor: pointer; transition: box-shadow 0.15s, background 0.15s; text-decoration: none; border: none;
+  }
+  .btn-primary { background: #7CC142; color: #111312; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+  .btn-primary:hover { box-shadow: 0 6px 20px rgba(124,193,66,0.35); }
+  .btn-ghost { background: #f5f5f7; color: #1c1c1e; border: 1px solid rgba(0,0,0,0.05); }
+  .btn-ghost:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-link { background: #7CC142; color: #111312; }
+  .nav-row { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.75rem; }
+
+  .progress-track { height: 3px; background: rgba(0,0,0,0.06); border-radius: 999px; overflow: hidden; margin-top: 0.5rem; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #7CC142, #30D158); border-radius: 999px; transition: width 0.35s cubic-bezier(0.22,1,0.36,1); }
+
+  .card {
+    padding: 1.75rem 1.5rem 2rem; border: 1px solid rgba(0,0,0,0.05); border-radius: 24px;
+    background: linear-gradient(165deg, rgba(124,193,66,0.06) 0%, transparent 45%), #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 16px 40px rgba(17,19,18,0.05);
+  }
+  .card-axis { display: inline-flex; padding: 0.25rem 0.65rem; background: #f5f5f7; border-radius: 999px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #636366; margin-bottom: 0.85rem; }
+  .card-title { font-size: clamp(1.1rem, 2.5vw, 1.3rem); font-weight: 700; color: #111312; letter-spacing: -0.02em; line-height: 1.35; margin-bottom: 1.5rem; }
+
+  .poles { display: grid; gap: 0.65rem; margin-bottom: 1.25rem; }
+  @media (min-width: 640px) { .poles { grid-template-columns: 1fr 1fr; } }
+  .pole { font-size: 0.8125rem; line-height: 1.5; color: #1c1c1e; padding: 0.85rem; border-radius: 14px; background: #f5f5f7; border-left: 3px solid transparent; }
+  .pole--0 { border-left-color: #FF453A; }
+  .pole--10 { border-left-color: #30D158; }
+
+  .slider-wrap { position: relative; padding: 0.5rem 0 2rem; }
+  .slider-zones { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); height: 8px; display: flex; border-radius: 999px; overflow: hidden; pointer-events: none; }
+  .sz { flex: 1; }
+  .sz-gap { background: rgba(255,69,58,0.12); }
+  .sz-mid { background: rgba(255,159,10,0.12); }
+  .sz-ok { background: rgba(48,209,88,0.12); }
+
+  #scale-slider {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 999px;
+    background: linear-gradient(to right, #7CC142 0%, #7CC142 var(--pct, 50%), rgba(0,0,0,0.08) var(--pct, 50%));
+    outline: none; cursor: pointer; position: relative; z-index: 1;
+  }
+  #scale-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%; background: #fff;
+    border: 2px solid #7CC142; box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: grab;
+  }
+  .slider-ticks { display: flex; justify-content: space-between; margin-top: 0.65rem; font-size: 0.68rem; color: #8e8e93; padding: 0 2px; }
+
+  .zone-live { text-align: center; font-size: 0.8125rem; font-weight: 500; color: #636366; margin: 1rem 0 0.5rem; }
+  .zone-live[data-zone="gap"] { color: #FF453A; }
+  .zone-live[data-zone="mid"] { color: #FF9F0A; }
+  .zone-live[data-zone="ok"] { color: #30D158; }
+  .hint-details { font-size: 0.8125rem; color: #636366; margin-top: 0.75rem; }
+  .hint-details summary { cursor: pointer; font-weight: 500; }
+
+  .part-label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #8e8e93; margin-bottom: 0.35rem; }
+  .block-pill { display: inline-flex; padding: 0.3rem 0.7rem; background: #f5f5f7; border-radius: 999px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #636366; }
+  .question-counter { font-size: 0.8125rem; color: #8e8e93; }
+  .question-eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #8e8e93; margin-bottom: 1rem; }
+  .question-text { font-size: clamp(1.125rem, 2.5vw, 1.35rem); font-weight: 600; color: #111312; letter-spacing: -0.02em; line-height: 1.45; margin-bottom: 2rem; }
+
+  .segmented {
+    --count: 5; --active-index: 2; position: relative; display: grid; grid-template-columns: repeat(5, 1fr);
+    padding: 4px; background: #f5f5f7; border-radius: 14px; border: 1px solid rgba(0,0,0,0.04);
+  }
+  .segmented::before {
+    content: ''; position: absolute; top: 4px; bottom: 4px; left: 4px;
+    width: calc((100% - 8px) / var(--count)); transform: translateX(calc(var(--active-index) * 100%));
+    background: #fff; border-radius: 11px; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
+    transition: transform 0.28s cubic-bezier(0.22,1,0.36,1); pointer-events: none; z-index: 0;
+  }
+  .seg-btn { position: relative; z-index: 1; min-height: 52px; background: transparent; border: none; cursor: pointer; border-radius: 11px; }
+  .seg-num { font-size: 1.0625rem; font-weight: 600; color: #8e8e93; transition: color 0.2s, transform 0.2s; }
+  .seg-btn.is-active .seg-num { color: #111312; transform: scale(1.05); }
+  .picker-caption { margin: 1.25rem 0 0; padding: 0.85rem 1rem; text-align: center; font-size: 0.9375rem; font-weight: 500; color: #1c1c1e; background: rgba(124,193,66,0.1); border-radius: 12px; }
+
+  .result-grid { display: grid; gap: 1.25rem; }
+  @media (min-width: 768px) { .result-grid { grid-template-columns: 1fr 1fr; } }
+  .result-panel { padding: 1.25rem; background: #f5f5f7; border-radius: 20px; border: 1px solid rgba(0,0,0,0.04); }
+  .panel-title { font-size: 0.9375rem; font-weight: 600; color: #111312; margin-bottom: 0.35rem; }
+  .panel-mean { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1rem; color: #111312; }
+  .panel-mean small { font-size: 0.875rem; font-weight: 500; color: #8e8e93; }
+
+  .radar-wrap { max-width: 260px; margin: 0 auto 1rem; }
+  .radar-svg { width: 100%; height: auto; display: block; }
+  :global(.radar-ring) { fill: none; stroke: #111312; }
+  :global(.radar-axis) { stroke: rgba(0,0,0,0.08); stroke-width: 1; }
+  :global(.radar-poly) { fill: url(#rf21); }
+  :global(.radar-stroke) { fill: none; stroke: #7CC142; stroke-width: 2; }
+  :global(.radar-dot) { fill: #7CC142; stroke: #fff; stroke-width: 2; }
+  :global(.radar-label) { font-size: 10px; fill: #636366; font-family: system-ui, sans-serif; }
+
+  .score-list.compact { display: flex; flex-direction: column; gap: 0.35rem; }
+  .score-list.compact .score-row { display: flex; justify-content: space-between; font-size: 0.8125rem; padding: 0.4rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+  .score-list.compact .score-val { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .score-row[data-zone="gap"] .score-val { color: #FF453A; }
+  .score-row[data-zone="mid"] .score-val { color: #FF9F0A; }
+  .score-row[data-zone="ok"] .score-val { color: #30D158; }
+
+  .bar-chart { display: flex; flex-direction: column; gap: 0.85rem; }
+  .bar-row { display: grid; grid-template-columns: 5.5rem 1fr 2rem; gap: 0.65rem; align-items: center; }
+  .bar-label { font-size: 0.75rem; color: #48484a; letter-spacing: -0.01em; }
+  .bar-track { height: 8px; background: rgba(0,0,0,0.06); border-radius: 999px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg, #7CC142, #30D158); border-radius: 999px; transition: width 0.5s cubic-bezier(0.22,1,0.36,1); }
+  .bar-val { font-size: 0.875rem; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; color: #111312; }
+
+  .tags-row { display: grid; gap: 0.75rem; }
+  @media (min-width: 480px) { .tags-row { grid-template-columns: 1fr 1fr; } }
+  .tag-card { padding: 1rem 1.15rem; border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); }
+  .tag-strong { background: rgba(48,209,88,0.08); }
+  .tag-grow { background: rgba(255,159,10,0.08); }
+  .tag-label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #636366; margin-bottom: 0.35rem; }
+  .tag-value { font-size: 0.875rem; line-height: 1.45; color: #111312; }
+
+  .conclusion-card {
+    padding: 1.5rem; background: linear-gradient(145deg, rgba(124,193,66,0.12) 0%, transparent 50%), #fff;
+    border: 1px solid rgba(0,0,0,0.05); border-radius: 24px; box-shadow: 0 8px 32px rgba(17,19,18,0.04);
+  }
+  .conclusion-badge { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #5fa832; margin-bottom: 0.5rem; }
+  .conclusion-title { font-size: 1.25rem; font-weight: 700; color: #111312; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+  .actions-title { font-size: 0.9375rem; font-weight: 600; margin: 1.25rem 0 0.65rem; }
+  .actions-list { margin: 0 0 1rem; padding-left: 1.15rem; line-height: 1.65; font-size: 0.9375rem; }
+  .conclusion-closing { margin-top: 1rem; color: #48484a; font-size: 0.9375rem; }
+</style>

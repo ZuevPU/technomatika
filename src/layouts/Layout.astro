@@ -13,7 +13,6 @@ interface Props {
   title: string;
   description?: string;
   ogTitle?: string;
-  darkHeader?: boolean;
   noFooter?: boolean;
 }
 
@@ -21,7 +20,6 @@ const {
   title,
   description = 'Учебные материалы программы повышения квалификации «Информатика в междисциплинарных проектах: Архитектура образовательных решений». Бренд ТЕХНОМАТИКА.',
   ogTitle,
-  darkHeader = false,
   noFooter = false,
 } = Astro.props;
 
@@ -60,7 +58,7 @@ const ogImage = new URL(path('/TM_View.png'), siteOrigin).href;
   </head>
   <body class="bg-brand-white font-sans text-ink antialiased">
     <a href="#main-content" class="skip-link">Перейти к содержанию</a>
-    <Header dark={darkHeader} />
+    <Header />
     <main id="main-content">
       <slot />
     </main>

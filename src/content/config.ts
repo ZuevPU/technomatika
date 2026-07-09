@@ -10,8 +10,9 @@ const lecturesCollection = defineCollection({
     summary: z.string(),
     duration: z.string(),
     practiceTitle: z.string().optional(),
-    slidesUrl: z.string().url().nullable().default(null),
-    transcriptUrl: z.string().url().nullable().default(null),
+    slidesUrl: z.string().nullable().default(null),
+    transcriptUrl: z.string().nullable().default(null),
+    transcriptLabel: z.string().optional(),
     materials: z
       .array(
         z.object({

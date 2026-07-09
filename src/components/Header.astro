@@ -1,35 +1,21 @@
 ---
 import Logo from './Logo.astro';
 import { path } from '../utils/paths';
-
-interface Props {
-  dark?: boolean;
-}
-const { dark = false } = Astro.props;
-const navTextColor = dark ? 'text-white/80 hover:text-white' : 'text-ink/70 hover:text-ink';
-const borderColor = dark ? 'border-white/10' : 'border-line';
-const bgClass = dark ? 'bg-brand-dark/95' : 'bg-white/95';
 ---
 
-<header
-  class:list={[
-    'sticky top-0 z-50 backdrop-blur-sm border-b transition-colors',
-    bgClass,
-    borderColor,
-  ]}
->
+<header class="sticky top-0 z-50 backdrop-blur-sm border-b border-white/10 bg-brand-dark/95 transition-colors">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 md:h-16 flex items-center justify-between gap-6">
-    <Logo dark={!dark} />
+    <Logo />
 
     <!-- Desktop nav only — mobile uses bottom tab bar -->
     <nav class="hidden md:flex items-center gap-6" aria-label="Основная навигация">
-      <a href={path('/#modules')} class:list={['text-sm font-medium transition-colors', navTextColor]}>
+      <a href={path('/#modules')} class="text-sm font-medium transition-colors text-white/80 hover:text-white">
         Программа
       </a>
-      <a href={path('/#materials')} class:list={['text-sm font-medium transition-colors', navTextColor]}>
+      <a href={path('/#materials')} class="text-sm font-medium transition-colors text-white/80 hover:text-white">
         Материалы
       </a>
-      <a href={path('/#whats-next')} class:list={['text-sm font-medium transition-colors', navTextColor]}>
+      <a href={path('/#whats-next')} class="text-sm font-medium transition-colors text-white/80 hover:text-white">
         Что дальше
       </a>
       <a

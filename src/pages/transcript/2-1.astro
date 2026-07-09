@@ -1,0 +1,199 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { path } from '../../utils/paths';
+---
+
+<Layout
+  title="Конспект 2.1 — Современная архитектура информационных технологий — ТЕХНОМАТИКА"
+  description="Тезис-селекция лекции: архитектура IT-проектов, роли в команде, технологии и современные тенденции разработки."
+>
+
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-16">
+
+    <nav aria-label="Хлебные крошки" class="mb-6 md:mb-8">
+      <ol class="flex flex-wrap items-center gap-1.5 text-sm text-muted">
+        <li><a href={path('/')} class="hover:text-ink transition-colors">Главная</a></li>
+        <li aria-hidden="true"><span class="text-line">/</span></li>
+        <li><a href={path('/lecture/2-1')} class="hover:text-ink transition-colors">2.1</a></li>
+        <li aria-hidden="true"><span class="text-line">/</span></li>
+        <li aria-current="page" class="text-ink font-medium">Конспект</li>
+      </ol>
+    </nav>
+
+    <header class="mb-10 pb-8 border-b border-line">
+      <p class="text-xs font-semibold uppercase tracking-widest text-muted mb-3">Конспект лекции · 2.1</p>
+      <h1 class="text-3xl md:text-4xl font-bold text-ink leading-tight mb-4" style="letter-spacing: -0.01em;">
+        Современная архитектура информационных технологий
+      </h1>
+    </header>
+
+    <section class="mb-12" aria-labelledby="desc-heading">
+      <h2 id="desc-heading" class="section-title">Описание лекции</h2>
+      <p class="body-text">
+        Лекция посвящена основам архитектуры IT‑проектов: их ключевым компонентам, ролям в команде, взаимодействию с другими областями знаний (биологией, финансами, медициной), а также современным тенденциям в разработке — использованию ИИ, различным технологиям и подходам к хранению данных.
+      </p>
+    </section>
+
+    <section class="mb-12" aria-labelledby="theses-heading">
+      <h2 id="theses-heading" class="section-title">Ключевые тезисы</h2>
+      <div class="space-y-10">
+
+        <div class="thesis">
+          <h3 class="thesis-title">1. Информатика как прикладная дисциплина</h3>
+          <p class="body-text">
+            Информатика сама по себе не является самодостаточной областью — она всегда применяется в связке с другими предметами. Студент прикладной информатики, который разрабатывает мобильные приложения, работает на стыке технологий и конкретной предметной области. Информатика наиболее эффективна, когда интегрируется с другими сферами деятельности.
+          </p>
+        </div>
+
+        <div class="thesis">
+          <h3 class="thesis-title">2. Компоненты IT‑проекта</h3>
+          <p class="body-text">
+            IT‑проект состоит из четырёх ключевых элементов: данные, логика, интерфейс, инфраструктура. Данные — информация, собираемая датчиками или из таблиц; логика определяет работу проекта; интерфейс отвечает за внешний вид; инфраструктура — за платформу, на которой проект функционирует. Понимание этих компонентов необходимо для успешной разработки.
+          </p>
+        </div>
+
+        <div class="thesis">
+          <h3 class="thesis-title">3. Роли в команде при разработке IT‑проекта</h3>
+          <p class="body-text">
+            В команде разработки задействованы разные специалисты: дата‑инженер, аналитик данных, backend‑разработчик, front-end разработчик, DevOps, архитектор системы, тестировщик и менеджер проекта. Каждая роль отвечает за определённый аспект — от сбора и анализа данных до тестирования и управления процессом. Слаженная работа с чётким распределением ролей критически важна для успеха проекта.
+          </p>
+        </div>
+
+        <div class="thesis">
+          <h3 class="thesis-title">4. Междисциплинарные связи IT</h3>
+          <p class="body-text">
+            IT тесно переплетается с другими областями: биологией (расшифровка геномов), финансовыми технологиями (кредитный скоринг), медициной (анализ снимков МРТ и КТ). Сравнение геномов миллионов людей — задача класса Big Data. IT‑проекты могут решать сложные задачи на стыке разных дисциплин.
+          </p>
+        </div>
+
+        <div class="thesis">
+          <h3 class="thesis-title">5. Роль искусственного интеллекта в разработке</h3>
+          <p class="body-text">
+            На данный момент 75 % нового кода пишет искусственный интеллект, а вручную программисты создают лишь 5 % кода в новых стартапах. Платформы вроде вайп‑кода от Яндекса позволяют разрабатывать приложения с минимальным участием человека. ИИ существенно меняет подход к разработке IT‑проектов, снижая порог входа для непрограммистов.
+          </p>
+        </div>
+
+        <div class="thesis">
+          <h3 class="thesis-title">6. Основные технологии веб‑разработки</h3>
+          <p class="body-text">
+            Ключевыми технологиями для создания сайтов являются HTML (скелет сайта), CSS (стилизация) и JavaScript (поведение элементов). Современные фреймворки (React, Vue) и парадигма реактивности упрощают разработку интерактивных интерфейсов. Знание базовых технологий и современных фреймворков необходимо для веб‑разработки.
+          </p>
+        </div>
+
+        <div class="thesis">
+          <h3 class="thesis-title">7. Подходы к хранению данных: SQL и NoSQL</h3>
+          <p class="body-text">
+            Существуют два основных подхода: табличные базы данных (SQL) и нереляционные (NoSQL). SQL подходит для структурированных данных, но имеет сложности при работе с множеством пользователей; NoSQL эффективен для быстрого доступа к данным и используется в соцсетях и интернет‑магазинах. Выбор подхода зависит от специфики проекта.
+          </p>
+        </div>
+
+        <div class="thesis">
+          <h3 class="thesis-title">8. Важность контроля версий и контейнеризации</h3>
+          <p class="body-text">
+            Контроль версий помогает командам согласованно работать над проектом. Контейнеризация позволяет упаковывать приложение со всем окружением для безопасного переноса между системами. Эти инструменты повышают эффективность командной работы и безопасность проектов.
+          </p>
+        </div>
+
+        <div class="thesis">
+          <h3 class="thesis-title">9. Цена ошибок в IT‑проектах</h3>
+          <p class="body-text">
+            Ошибки в IT‑коде могут приводить к серьёзным последствиям и финансовым потерям. Ракета взорвалась через 37 секунд после старта из‑за переполнения переменной при пересчёте данных навигации — это обошлось в 370 миллионов. Тщательная проверка кода и внимание к деталям критически важны в IT‑разработке.
+          </p>
+        </div>
+
+        <div class="thesis">
+          <h3 class="thesis-title">10. Принципы работы с ИИ в разработке</h3>
+          <p class="body-text">
+            При использовании ИИ в разработке важно чётко понимать архитектуру проекта и ставить конкретные задачи. Необходимо проверять сгенерированный код, искать дефициты и использовать экспертную оценку. Работа с ИИ требует осознанного подхода и дополнительной проверки результатов.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="mb-12" aria-labelledby="outro-heading">
+      <h2 id="outro-heading" class="section-title">Заключение</h2>
+      <p class="body-text">
+        IT‑проекты — это междисциплинарные решения, объединяющие информатику с другими областями. Их успех зависит от продуманной архитектуры, слаженной работы команды и выбора подходящих технологий. Современные тенденции — активное использование ИИ, новые подходы к хранению данных и инструменты для командной работы — существенно меняют ландшафт IT‑разработки. При этом критически важно не забывать о качестве кода и цене возможных ошибок.
+      </p>
+    </section>
+
+    <section class="mb-12" aria-labelledby="study-heading">
+      <h2 id="study-heading" class="section-title">Рекомендации по изучению</h2>
+      <p class="body-text">
+        Обратите внимание на взаимосвязь IT с другими дисциплинами и возможности межпредметных проектов. Осмыслите роли в IT‑команде и технологии, лежащие в основе веб‑разработки. Подумайте, как можно применять ИИ в образовательных проектах. Изучите базовые принципы работы с базами данных (SQL/NoSQL) и инструменты контроля версий. Попробуйте сгенерировать простой проект с помощью ИИ‑платформ и проанализируйте результат.
+      </p>
+    </section>
+
+    <section class="reflection-cta mb-12 p-6 md:p-8 rounded-card border border-line" aria-labelledby="reflection-cta-heading">
+      <p class="text-xs font-semibold uppercase tracking-widest text-muted mb-2">Следующий шаг</p>
+      <h2 id="reflection-cta-heading" class="text-xl font-bold text-ink mb-2" style="letter-spacing: -0.01em;">
+        Диагностика компетенций в архитектуре IT
+      </h2>
+      <p class="body-text mb-5">
+        6 шкал установок, 12 навыков, паутинка, профиль по блокам и персональный вывод.
+      </p>
+      <a href={path('/reflection/2-1')} class="cta-btn">Пройти диагностику →</a>
+    </section>
+
+    <div class="pt-8 border-t border-line flex flex-wrap gap-3">
+      <a href={path('/lecture/2-1')} class="back-link">← К теме 2.1</a>
+    </div>
+
+  </article>
+</Layout>
+
+<style>
+  .section-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #111312;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+  .thesis-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111312;
+    margin-bottom: 0.65rem;
+    letter-spacing: -0.01em;
+  }
+  .body-text {
+    color: #111312;
+    line-height: 1.75;
+    font-size: 1rem;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    text-decoration: none;
+    color: #111312;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .back-link:hover {
+    border-color: #111312;
+    box-shadow: 0 2px 12px rgba(17, 19, 18, 0.08);
+  }
+  .reflection-cta {
+    background: linear-gradient(135deg, rgba(124, 193, 66, 0.14) 0%, transparent 55%), #fff;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0.75rem 1.25rem;
+    background: #7CC142;
+    color: #111312;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: box-shadow 0.15s;
+  }
+  .cta-btn:hover { box-shadow: 0 4px 16px rgba(124, 193, 66, 0.35); }
+</style>

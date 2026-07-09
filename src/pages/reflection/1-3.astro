@@ -1,0 +1,878 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { path } from '../../utils/paths';
+import {
+  REFLECTION_META,
+  BLOCKS,
+  STATEMENTS,
+  SCALE_LABELS,
+  CONCLUSIONS,
+} from '../../data/reflection-1-3';
+
+const blocksJson = JSON.stringify(BLOCKS);
+const statementsJson = JSON.stringify(STATEMENTS);
+const scaleLabelsJson = JSON.stringify(SCALE_LABELS);
+const conclusionsJson = JSON.stringify(CONCLUSIONS);
+---
+
+<Layout
+  title="Рефлексия 1.3 — Навыки работы с ИИ — ТЕХНОМАТИКА"
+  description="Матрица навыков работы с искусственным интеллектом: 20 утверждений, 5 компетенций и персональные рекомендации."
+>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-16" id="skills-app">
+
+    <nav aria-label="Хлебные крошки" class="mb-6 md:mb-8">
+      <ol class="flex flex-wrap items-center gap-1.5 text-sm text-muted">
+        <li><a href={path('/')} class="hover:text-ink transition-colors">Главная</a></li>
+        <li aria-hidden="true"><span class="text-line">/</span></li>
+        <li><a href={path('/lecture/1-3')} class="hover:text-ink transition-colors">1.3</a></li>
+        <li aria-hidden="true"><span class="text-line">/</span></li>
+        <li><a href={path('/transcript/1-3')} class="hover:text-ink transition-colors">Конспект</a></li>
+        <li aria-hidden="true"><span class="text-line">/</span></li>
+        <li aria-current="page" class="text-ink font-medium">Рефлексия</li>
+      </ol>
+    </nav>
+
+    <!-- INTRO -->
+    <section id="step-intro" class="step" data-step="intro">
+      <p class="eyebrow">Рефлексия · тема 1.3</p>
+      <h1 class="page-title">{REFLECTION_META.introTitle}</h1>
+      <div class="intro-body space-y-4 mb-8">
+        {REFLECTION_META.introBody.map((p) => (
+          <p class="body-text">{p}</p>
+        ))}
+      </div>
+
+      <div class="scale-guide mb-10" aria-label="Шкала ответов">
+        <p class="scale-guide-title">Шкала самооценки</p>
+        <div class="scale-guide-grid">
+          {Object.entries(SCALE_LABELS).map(([val, label]) => (
+            <div class="scale-guide-item">
+              <span class="scale-guide-num">{val}</span>
+              <span class="scale-guide-label">{label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary" id="btn-start">Начать диагностику</button>
+    </section>
+
+    <!-- QUESTIONS -->
+    <section id="step-questions" class="step hidden" data-step="questions" hidden>
+      <div class="question-top mb-6">
+        <div class="flex items-center justify-between gap-3 mb-3">
+          <span class="block-pill" id="block-pill">А · Базовое</span>
+          <span class="question-counter tabular-nums" id="question-counter">1 / 20</span>
+        </div>
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="progress-fill" style="width: 5%"></div>
+        </div>
+      </div>
+
+      <article class="question-card">
+        <p class="question-eyebrow" id="question-eyebrow">Утверждение 1</p>
+        <h2 class="question-text" id="question-text"></h2>
+
+        <div class="picker-block">
+          <div class="segmented" id="segmented" role="radiogroup" aria-label="Оценка от 1 до 5"></div>
+          <p class="picker-caption" id="picker-caption">Периодически, не системно</p>
+        </div>
+      </article>
+
+      <div class="nav-row">
+        <button type="button" class="btn-ghost" id="btn-prev" disabled>← Назад</button>
+        <button type="button" class="btn-primary" id="btn-next">Далее →</button>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="step-result" class="step hidden" data-step="result" hidden>
+      <p class="eyebrow">Ваш профиль</p>
+      <h1 class="page-title page-title--sm">Матрица навыков</h1>
+      <p class="result-sub">Пять компетенций — один снимок практики</p>
+
+      <div class="result-hero mb-8">
+        <div class="result-mean">
+          <span class="mean-label">Средний балл</span>
+          <span class="mean-value" id="mean-value">—</span>
+          <span class="mean-hint">из 5</span>
+        </div>
+        <div class="radar-wrap" role="img" aria-label="Диаграмма по пяти блокам навыков">
+          <svg id="radar-svg" viewBox="0 0 480 480" class="radar-svg" aria-hidden="true"></svg>
+        </div>
+      </div>
+
+      <section class="profile-table-block mb-10" aria-labelledby="profile-table-title">
+        <div class="profile-table-intro">
+          <h2 id="profile-table-title" class="profile-table-title">Баллы по блокам</h2>
+          <p class="profile-table-desc">
+            <span class="hint-low">1–2 начальный</span>
+            <span class="hint-mid">2,1–3,5 базовый</span>
+            <span class="hint-good">3,6–4,5 продвинутый</span>
+            <span class="hint-high">4,6–5 эксперт</span>
+          </p>
+        </div>
+        <div class="score-list" id="block-list"></div>
+      </section>
+
+      <section class="weak-block mb-10" id="weak-section" hidden>
+        <h2 class="profile-table-title">Точки роста</h2>
+        <div id="weak-list" class="weak-list"></div>
+      </section>
+
+      <article class="conclusion-card" id="conclusion-card">
+        <p class="conclusion-badge" id="conclusion-badge"></p>
+        <h2 class="conclusion-title" id="conclusion-title"></h2>
+        <p class="body-text" id="conclusion-lead"></p>
+        <h3 class="actions-title" id="actions-title"></h3>
+        <ol class="actions-list" id="actions-list"></ol>
+        <p class="body-text conclusion-closing" id="conclusion-closing"></p>
+      </article>
+
+      <div class="nav-row mt-10">
+        <button type="button" class="btn-ghost" id="btn-restart">Пройти ещё раз</button>
+        <a href={path('/transcript/1-3')} class="btn-primary btn-link">← К конспекту</a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script
+  define:vars={{
+    blocksJson,
+    statementsJson,
+    scaleLabelsJson,
+    conclusionsJson,
+  }}
+>
+  const BLOCKS = JSON.parse(blocksJson);
+  const STATEMENTS = JSON.parse(statementsJson);
+  const SCALE_LABELS = JSON.parse(scaleLabelsJson);
+  const CONCLUSIONS = JSON.parse(conclusionsJson);
+
+  const values = Array(STATEMENTS.length).fill(3);
+  let qIndex = 0;
+
+  const blockById = Object.fromEntries(BLOCKS.map((b) => [b.id, b]));
+
+  const els = {
+    intro: document.getElementById('step-intro'),
+    questions: document.getElementById('step-questions'),
+    result: document.getElementById('step-result'),
+    blockPill: document.getElementById('block-pill'),
+    questionCounter: document.getElementById('question-counter'),
+    progressFill: document.getElementById('progress-fill'),
+    questionEyebrow: document.getElementById('question-eyebrow'),
+    questionText: document.getElementById('question-text'),
+    segmented: document.getElementById('segmented'),
+    pickerCaption: document.getElementById('picker-caption'),
+    btnPrev: document.getElementById('btn-prev'),
+    btnNext: document.getElementById('btn-next'),
+    btnStart: document.getElementById('btn-start'),
+    btnRestart: document.getElementById('btn-restart'),
+    meanValue: document.getElementById('mean-value'),
+    radarSvg: document.getElementById('radar-svg'),
+    blockList: document.getElementById('block-list'),
+    weakSection: document.getElementById('weak-section'),
+    weakList: document.getElementById('weak-list'),
+    conclusionBadge: document.getElementById('conclusion-badge'),
+    conclusionTitle: document.getElementById('conclusion-title'),
+    conclusionLead: document.getElementById('conclusion-lead'),
+    actionsTitle: document.getElementById('actions-title'),
+    actionsList: document.getElementById('actions-list'),
+    conclusionClosing: document.getElementById('conclusion-closing'),
+  };
+
+  function levelFor(score) {
+    if (score <= 2) return { label: 'Начальный', zone: 'low' };
+    if (score <= 3.5) return { label: 'Базовый', zone: 'mid' };
+    if (score <= 4.5) return { label: 'Продвинутый', zone: 'good' };
+    return { label: 'Экспертный', zone: 'high' };
+  }
+
+  function blockAverage(blockId) {
+    const items = STATEMENTS.filter((s) => s.blockId === blockId).map((s) => values[s.id - 1]);
+    return Math.round((items.reduce((a, b) => a + b, 0) / items.length) * 10) / 10;
+  }
+
+  function allBlockScores() {
+    const map = {};
+    BLOCKS.forEach((b) => { map[b.id] = blockAverage(b.id); });
+    return map;
+  }
+
+  function pickConclusion(scores) {
+    const list = BLOCKS.map((b) => scores[b.id]);
+    const allLow = list.every((s) => s <= 2.5);
+    const allHigh = list.every((s) => s >= 4);
+    const aHigh = scores.A >= 3.6;
+    const cHigh = scores.C >= 3.6;
+    const bLow = scores.B <= 2.5;
+    const dLow = scores.D <= 2.5;
+    const eLow = scores.E <= 2.5;
+    if (allHigh) return CONCLUSIONS.find((c) => c.id === 'expert');
+    if (allLow) return CONCLUSIONS.find((c) => c.id === 'start');
+    if (aHigh && cHigh && bLow && dLow) return CONCLUSIONS.find((c) => c.id === 'prep-no-critique');
+    if (aHigh && eLow) return CONCLUSIONS.find((c) => c.id === 'tools-no-reflection');
+    return CONCLUSIONS.find((c) => c.id === 'mixed');
+  }
+
+  function showStep(name) {
+    [els.intro, els.questions, els.result].forEach((el) => {
+      const active = el.dataset.step === name;
+      el.classList.toggle('hidden', !active);
+      el.hidden = !active;
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updatePickerCaption(v) {
+    els.pickerCaption.textContent = SCALE_LABELS[String(v)] || '';
+    els.pickerCaption.dataset.value = String(v);
+  }
+
+  function renderQuestion() {
+    const s = STATEMENTS[qIndex];
+    const block = blockById[s.blockId];
+    const v = values[s.id - 1];
+
+    els.blockPill.textContent = `${block.letter} · ${block.shortTitle}`;
+    els.questionCounter.textContent = `${s.id} / ${STATEMENTS.length}`;
+    els.progressFill.style.width = `${((qIndex + 1) / STATEMENTS.length) * 100}%`;
+    els.questionEyebrow.textContent = `Утверждение ${s.id} · ${block.title}`;
+    els.questionText.textContent = s.text;
+    els.btnPrev.disabled = qIndex === 0;
+    els.btnNext.textContent = qIndex === STATEMENTS.length - 1 ? 'Показать результат →' : 'Далее →';
+
+    els.segmented.innerHTML = [1, 2, 3, 4, 5].map((n) => `
+      <button type="button" class="seg-btn${v === n ? ' is-active' : ''}" data-value="${n}" aria-pressed="${v === n}">
+        <span class="seg-num">${n}</span>
+      </button>
+    `).join('');
+
+    els.segmented.style.setProperty('--active-index', String(v - 1));
+    updatePickerCaption(v);
+
+    els.segmented.querySelectorAll('.seg-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const val = Number(btn.dataset.value);
+        values[s.id - 1] = val;
+        els.segmented.querySelectorAll('.seg-btn').forEach((b) => {
+          b.classList.toggle('is-active', b === btn);
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+        els.segmented.style.setProperty('--active-index', String(val - 1));
+        updatePickerCaption(val);
+      });
+    });
+  }
+
+  function drawRadar(scores) {
+    const size = 480;
+    const cx = size / 2;
+    const cy = size / 2;
+    const maxR = 128;
+    const arr = BLOCKS.map((b) => scores[b.id]);
+    const n = arr.length;
+    const angleStep = (Math.PI * 2) / n;
+    const start = -Math.PI / 2;
+
+    const pointAt = (i, r) => {
+      const a = start + i * angleStep;
+      return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+    };
+
+    const defs = `
+      <defs>
+        <radialGradient id="radarFill13" cx="50%" cy="50%" r="65%">
+          <stop offset="0%" stop-color="#7CC142" stop-opacity="0.38"/>
+          <stop offset="70%" stop-color="#7CC142" stop-opacity="0.16"/>
+          <stop offset="100%" stop-color="#34C759" stop-opacity="0.05"/>
+        </radialGradient>
+        <filter id="softGlow13" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>`;
+
+    const rings = [0.2, 0.4, 0.6, 0.8, 1]
+      .map((t, idx) => `<circle cx="${cx}" cy="${cy}" r="${maxR * t}" class="radar-ring" style="stroke-opacity:${idx === 4 ? 0.22 : 0.1}" />`)
+      .join('');
+
+    const ref = `<circle cx="${cx}" cy="${cy}" r="${maxR * 0.8}" class="radar-ref" />`;
+
+    const axes = Array.from({ length: n }, (_, i) => {
+      const [x, y] = pointAt(i, maxR);
+      return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" class="radar-axis" />`;
+    }).join('');
+
+    const pts = arr.map((val, i) => pointAt(i, (Math.max(0, Math.min(5, val)) / 5) * maxR));
+    const dataPts = pts.map((p) => p.join(',')).join(' ');
+    const poly = `<polygon points="${dataPts}" class="radar-poly" filter="url(#softGlow13)" />`;
+    const stroke = `<polygon points="${dataPts}" class="radar-stroke" />`;
+    const dots = pts.map(([x, y]) =>
+      `<circle cx="${x}" cy="${y}" r="5.5" class="radar-dot-halo" />
+       <circle cx="${x}" cy="${y}" r="3.5" class="radar-dot" />`
+    ).join('');
+
+    const labels = BLOCKS.map((b, i) => {
+      const [x, y] = pointAt(i, maxR + 40);
+      const anchor = Math.abs(x - cx) < 14 ? 'middle' : x > cx ? 'start' : 'end';
+      return `<text x="${x}" y="${y + 3}" text-anchor="${anchor}" class="radar-label">${b.shortTitle}</text>`;
+    }).join('');
+
+    els.radarSvg.innerHTML = `${defs}${rings}${ref}${axes}${poly}${stroke}${dots}${labels}`;
+  }
+
+  function renderResult() {
+    const scores = allBlockScores();
+    const blockAvgs = BLOCKS.map((b) => scores[b.id]);
+    const mean = Math.round((blockAvgs.reduce((a, b) => a + b, 0) / blockAvgs.length) * 10) / 10;
+    const conclusion = pickConclusion(scores);
+
+    els.meanValue.textContent = String(mean).replace('.', ',');
+    drawRadar(scores);
+
+    els.blockList.innerHTML = BLOCKS.map((b) => {
+      const score = scores[b.id];
+      const lvl = levelFor(score);
+      return `<div class="score-row" data-zone="${lvl.zone}">
+        <span class="score-row-name">${b.letter}. ${b.title}</span>
+        <span class="score-row-val">${String(score).replace('.', ',')}</span>
+      </div>`;
+    }).join('');
+
+    const weakHtml = BLOCKS.map((b) => {
+      const weakest = STATEMENTS.filter((s) => s.blockId === b.id)
+        .map((s) => ({ text: s.text, value: values[s.id - 1] }))
+        .sort((a, c) => a.value - c.value)
+        .slice(0, 2)
+        .filter((item) => item.value <= 3);
+      if (!weakest.length) return '';
+      return `<div class="weak-block-item">
+        <p class="weak-block-name">${b.letter}. ${b.title}</p>
+        <ul>${weakest.map((w) => `<li>${w.text}</li>`).join('')}</ul>
+      </div>`;
+    }).filter(Boolean).join('');
+
+    els.weakSection.hidden = !weakHtml;
+    if (weakHtml) els.weakList.innerHTML = weakHtml;
+
+    els.conclusionBadge.textContent = conclusion.badge;
+    els.conclusionTitle.textContent = conclusion.title;
+    els.conclusionLead.textContent = conclusion.lead;
+    els.actionsTitle.textContent = conclusion.actionsTitle;
+    els.actionsList.innerHTML = conclusion.actions.map((a) => `<li>${a}</li>`).join('');
+    els.conclusionClosing.textContent = conclusion.closing;
+  }
+
+  els.btnStart.addEventListener('click', () => {
+    qIndex = 0;
+    showStep('questions');
+    renderQuestion();
+  });
+
+  els.btnPrev.addEventListener('click', () => {
+    if (qIndex === 0) return;
+    qIndex -= 1;
+    renderQuestion();
+  });
+
+  els.btnNext.addEventListener('click', () => {
+    if (qIndex < STATEMENTS.length - 1) {
+      qIndex += 1;
+      renderQuestion();
+      return;
+    }
+    renderResult();
+    showStep('result');
+  });
+
+  els.btnRestart.addEventListener('click', () => {
+    for (let i = 0; i < values.length; i++) values[i] = 3;
+    qIndex = 0;
+    showStep('intro');
+  });
+</script>
+
+<style>
+  .hidden { display: none !important; }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6B6F6E;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-title {
+    font-size: clamp(1.75rem, 4vw, 2.35rem);
+    font-weight: 700;
+    color: #111312;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+  }
+
+  .page-title--sm { font-size: clamp(1.5rem, 3vw, 2rem); }
+
+  .body-text {
+    color: #111312;
+    line-height: 1.75;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .result-sub {
+    color: #6B6F6E;
+    font-size: 0.9375rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  /* Intro scale guide */
+  .scale-guide-title {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6B6F6E;
+    margin-bottom: 0.75rem;
+  }
+
+  .scale-guide-grid {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 480px) {
+    .scale-guide-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .scale-guide-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: #f5f5f7;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  .scale-guide-num {
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #111312;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+
+  .scale-guide-label {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: #1c1c1e;
+    letter-spacing: -0.01em;
+  }
+
+  /* Buttons */
+  .btn-primary, .btn-ghost, .btn-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0.75rem 1.35rem;
+    border-radius: 14px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s, box-shadow 0.15s, opacity 0.15s;
+    text-decoration: none;
+    border: none;
+  }
+
+  .btn-primary {
+    background: #7CC142;
+    color: #111312;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+
+  .btn-primary:hover { box-shadow: 0 6px 20px rgba(124, 193, 66, 0.35); }
+  .btn-primary:active { transform: scale(0.98); }
+
+  .btn-ghost {
+    background: #f5f5f7;
+    color: #1c1c1e;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .btn-ghost:hover:not(:disabled) { background: #ebebed; }
+  .btn-ghost:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .btn-link { background: #7CC142; color: #111312; }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  /* Progress */
+  .progress-track {
+    height: 3px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7CC142, #30D158);
+    border-radius: 999px;
+    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .block-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.7rem;
+    background: #f5f5f7;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #636366;
+  }
+
+  .question-counter {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #8e8e93;
+    letter-spacing: -0.01em;
+  }
+
+  /* Question card */
+  .question-card {
+    padding: 1.75rem 1.5rem 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    background:
+      linear-gradient(165deg, rgba(124, 193, 66, 0.06) 0%, transparent 45%),
+      #fff;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.03),
+      0 16px 40px rgba(17, 19, 18, 0.05);
+  }
+
+  @media (min-width: 640px) {
+    .question-card { padding: 2rem 2rem 2.25rem; }
+  }
+
+  .question-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #8e8e93;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .question-text {
+    font-size: clamp(1.125rem, 2.5vw, 1.35rem);
+    font-weight: 600;
+    color: #111312;
+    letter-spacing: -0.02em;
+    line-height: 1.45;
+    margin-bottom: 2rem;
+  }
+
+  /* Segmented control — Apple style */
+  .picker-block {
+    padding-top: 0.25rem;
+  }
+
+  .segmented {
+    --count: 5;
+    --active-index: 2;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    padding: 4px;
+    background: #f5f5f7;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  .segmented::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc((100% - 8px) / var(--count));
+    transform: translateX(calc(var(--active-index) * 100%));
+    background: #fff;
+    border-radius: 11px;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.08),
+      0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .seg-btn {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0.5rem 0.25rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 11px;
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .seg-num {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #8e8e93;
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .seg-btn.is-active .seg-num {
+    color: #111312;
+    transform: scale(1.05);
+  }
+
+  .seg-btn:hover:not(.is-active) .seg-num {
+    color: #636366;
+  }
+
+  .picker-caption {
+    margin: 1.25rem 0 0;
+    padding: 0.85rem 1rem;
+    text-align: center;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #1c1c1e;
+    background: rgba(124, 193, 66, 0.1);
+    border-radius: 12px;
+    line-height: 1.45;
+    transition: opacity 0.2s;
+  }
+
+  /* Result */
+  .result-hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.5rem;
+    background: #f5f5f7;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  @media (min-width: 640px) {
+    .result-hero { grid-template-columns: minmax(100px, auto) 1fr; }
+  }
+
+  .result-mean { text-align: center; }
+
+  .mean-label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #8e8e93;
+    margin-bottom: 0.25rem;
+  }
+
+  .mean-value {
+    display: block;
+    font-size: 3.25rem;
+    font-weight: 700;
+    color: #111312;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mean-hint { font-size: 0.8125rem; color: #8e8e93; }
+
+  .radar-wrap { max-width: 340px; margin: 0 auto; width: 100%; }
+  .radar-svg { width: 100%; height: auto; display: block; }
+
+  :global(.radar-ring) { fill: none; stroke: #111312; }
+  :global(.radar-ref) { fill: none; stroke: #30D158; stroke-width: 1; stroke-dasharray: 4 4; opacity: 0.35; }
+  :global(.radar-axis) { stroke: rgba(0, 0, 0, 0.08); stroke-width: 1; }
+  :global(.radar-poly) { fill: url(#radarFill13); }
+  :global(.radar-stroke) { fill: none; stroke: #7CC142; stroke-width: 2.5; stroke-linejoin: round; }
+  :global(.radar-dot-halo) { fill: rgba(124, 193, 66, 0.25); }
+  :global(.radar-dot) { fill: #7CC142; stroke: #fff; stroke-width: 2; }
+  :global(.radar-label) { font-size: 11px; fill: #636366; font-weight: 500; font-family: system-ui, sans-serif; }
+
+  .profile-table-intro { margin-bottom: 1rem; }
+
+  .profile-table-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111312;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+
+  .profile-table-desc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    color: #8e8e93;
+  }
+
+  .hint-low::before { content: '● '; color: #FF453A; }
+  .hint-mid::before { content: '● '; color: #FF9F0A; }
+  .hint-good::before { content: '● '; color: #7CC142; }
+  .hint-high::before { content: '● '; color: #30D158; }
+
+  .score-list { display: flex; flex-direction: column; gap: 0.45rem; }
+
+  .score-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    background: #f5f5f7;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+  }
+
+  .score-row-name {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: #111312;
+    letter-spacing: -0.01em;
+  }
+
+  .score-row-val {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+
+  .score-row[data-zone="low"] .score-row-val { color: #FF453A; }
+  .score-row[data-zone="mid"] .score-row-val { color: #FF9F0A; }
+  .score-row[data-zone="good"] .score-row-val { color: #7CC142; }
+  .score-row[data-zone="high"] .score-row-val { color: #30D158; }
+
+  .weak-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .weak-block-item {
+    padding: 1rem 1.15rem;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  }
+
+  .weak-block-name {
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+    color: #111312;
+  }
+
+  .weak-block-item ul {
+    margin: 0;
+    padding-left: 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: #48484a;
+    letter-spacing: -0.01em;
+  }
+
+  .weak-block-item li + li { margin-top: 0.35rem; }
+
+  .conclusion-card {
+    padding: 1.5rem 1.5rem 1.75rem;
+    background:
+      linear-gradient(145deg, rgba(124, 193, 66, 0.12) 0%, transparent 50%),
+      #fff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(17, 19, 18, 0.04);
+  }
+
+  .conclusion-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #5fa832;
+    margin-bottom: 0.5rem;
+  }
+
+  .conclusion-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111312;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .actions-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin: 1.25rem 0 0.65rem;
+    color: #111312;
+    letter-spacing: -0.01em;
+  }
+
+  .actions-list {
+    margin: 0 0 1rem;
+    padding-left: 1.15rem;
+    line-height: 1.65;
+    font-size: 0.9375rem;
+    letter-spacing: -0.01em;
+  }
+
+  .actions-list li + li { margin-top: 0.35rem; }
+
+  .conclusion-closing {
+    margin-top: 1rem;
+    color: #48484a;
+    font-size: 0.9375rem;
+  }
+</style>

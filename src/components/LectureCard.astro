@@ -13,6 +13,7 @@ interface Props {
   practiceTitle?: string;
   slidesUrl: string | null;
   transcriptUrl: string | null;
+  transcriptLabel?: string;
   materials: Material[];
   module: number;
 }
@@ -25,6 +26,7 @@ const {
   practiceTitle,
   slidesUrl,
   transcriptUrl,
+  transcriptLabel,
   materials,
   module,
 } = Astro.props;
@@ -63,7 +65,7 @@ const lectureUrl = path(`/lecture/${slug}`);
   <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 pt-2 border-t border-line">
     {slidesUrl ? (
       <a
-        href={slidesUrl}
+        href={path(slidesUrl)}
         target="_blank"
         rel="noopener noreferrer"
         class="action-btn"
@@ -87,7 +89,7 @@ const lectureUrl = path(`/lecture/${slug}`);
 
     {transcriptUrl ? (
       <a
-        href={transcriptUrl}
+        href={path(transcriptUrl)}
         target="_blank"
         rel="noopener noreferrer"
         class="action-btn"
@@ -95,14 +97,14 @@ const lectureUrl = path(`/lecture/${slug}`);
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M2 2.5h10M2 5h10M2 7.5h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
         </svg>
-        Конспект
+        {transcriptLabel ?? 'Конспект'}
       </a>
     ) : (
       <button class="action-btn-soon" disabled aria-disabled="true">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M2 2.5h10M2 5h10M2 7.5h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
         </svg>
-        Конспект
+        {transcriptLabel ?? 'Конспект'}
         <span class="soon-badge">Скоро</span>
       </button>
     )}
