@@ -5,19 +5,20 @@
 ## Настройка (один раз)
 
 1. Откройте **Настройки → Страницы**
-2. **Источник:** выберите **Воркфлоу** (рекомендуется)
+2. **Источник:** выберите **Ветка** (не «Воркфлоу»)
+3. **Ветка:** `master`
+4. **Папка:** `docs`
+5. Сохраните
 
-   Либо, если остаётесь на режиме **Ветка**:
-   - **Папка:** `docs`
-   - В корне уже есть `.nojekyll` и `_config.yml`, которые отключают обработку исходников
-
-3. Сохраните и перезапустите публикацию
+> Экшены `gitverse/upload-pages-artifact` и `gitverse/deploy-pages` на runner сейчас недоступны
+> (`Repository not found` / `Unauthorized`). Поэтому публикация идёт из папки `docs`.
+> Workflow в `.gitverse/workflows/` только проверяет сборку.
 
 ## Обновление сайта
 
 ```bash
 npm run build:pages
-git add docs/
+git add docs/ .gitverse/workflows/
 git commit -m "Update published site"
 git push origin master
 ```

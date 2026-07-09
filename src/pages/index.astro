@@ -55,9 +55,9 @@ const modules = [
           <span class="chip-green">Программа повышения квалификации для учителей информатики</span>
         </div>
 
-        <h1 class="text-hero font-bold text-white mb-4 sm:mb-5 leading-tight break-words">
+        <h1 class="text-hero font-bold text-white mb-4 sm:mb-5 leading-tight">
           Информатика<br/>
-          в&nbsp;междисциплинарных<br/>
+          <span class="hero-nowrap">в&nbsp;междисциплинарных</span><br/>
           проектах
         </h1>
 
@@ -258,9 +258,15 @@ const modules = [
 
 <style>
   .text-hero {
-    font-size: clamp(1.75rem, 6.5vw, 4.5rem);
+    font-size: clamp(1.5rem, 5.8vw, 4.5rem);
     line-height: 1.12;
     letter-spacing: -0.02em;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+  }
+  .hero-nowrap {
+    white-space: nowrap;
   }
   .text-h2 {
     font-size: clamp(2rem, 3.5vw, 2.5rem);
