@@ -34,7 +34,59 @@ const modules = [
 
 const ALL_MATERIALS_URL = 'https://disk.yandex.ru/d/Qv6znPxKL8uxeA';
 const MEDIA_ARCHIVE_URL = 'https://disk.yandex.ru/d/12vg88jhsqOIpg';
-const HIGHLIGHT_VIDEO_PUBLIC = 'https://yadi.sk/i/4WV2LY7VBYAvgQ';
+
+const onlineSchedule = [
+  {
+    date: '15.07',
+    time: '16:00 – 18:00',
+    timeNote: 'МСК 11:00',
+    track: 'Визуализация алгоритмов: от сортировок к графам',
+    expert: 'Арсений Обозненко',
+    focus: 'Базовый курс проектного программирования. Трансформация абстрактной логики в наглядные схемы и графовые модели.',
+    joinUrl: 'https://vk.com/call/join/QFkCQMsuoI2hjlT6FcriGxOEP8fGxfhRgUjulVnRn6c',
+    streamUrl: 'https://vk.com/video326435389_456239099',
+  },
+  {
+    date: '17.07',
+    time: '16:00 – 18:00',
+    timeNote: 'МСК 11:00',
+    track: 'Основы Frontend-разработки',
+    expert: 'Виктория Миронова',
+    focus: 'Интерфейсы как мост между алгоритмом и пользователем. Создание визуальной оболочки проектов.',
+    joinUrl: 'https://vk.com/call/join/gcn0b0BpOeP4cxJlhec3LSFMIa_JGipMFl0fIxNLySk',
+    streamUrl: 'https://vk.com/video326435389_456239100',
+  },
+  {
+    date: '20.07',
+    time: '16:00 – 18:00',
+    timeNote: 'МСК 11:00',
+    track: 'Использование ИИ для решения задач проектно-исследовательских работ',
+    expert: 'Владислав Гребенюк',
+    focus: 'Интеграция генеративного ИИ в цикл исследования: от гипотезы до выводов.',
+    joinUrl: 'https://vk.com/call/join/vNP_owtI5WAM9NRavNvUa27BmUS--FQkuhXbww8Ai4A',
+    streamUrl: 'https://vk.com/video326435389_456239101',
+  },
+  {
+    date: '22.07',
+    time: '16:00 – 18:00',
+    timeNote: 'МСК 11:00',
+    track: 'Автоматизация рутинных задач с использованием генеративного ИИ в работе учителя',
+    expert: 'Александр Степанов',
+    focus: 'Прикладные сценарии: генерация контента, проверка работ, адаптация материалов под ученика.',
+    joinUrl: 'https://vk.com/call/join/8Bz90O5Rsinzm89oAPgIV6Tv8LlrgWyrO_g1mqcL_9w',
+    streamUrl: 'https://vk.com/video326435389_456239102',
+  },
+  {
+    date: '24.07',
+    time: '16:00 – 18:00',
+    timeNote: 'МСК 11:00',
+    track: 'Основы проектной деятельности',
+    expert: 'Пётр Зуев',
+    focus: 'Системная сборка всех модулей: от замысла до реализации и защиты проекта. Методология и критерии оценки.',
+    joinUrl: 'https://vk.com/call/join/7JexhmBNRowVX62kLQAkVIFQpPd0NH3C2M7bbdDdMAs',
+    streamUrl: 'https://vk.com/video326435389_456239103',
+  },
+];
 ---
 
 <Layout
@@ -102,18 +154,14 @@ const HIGHLIGHT_VIDEO_PUBLIC = 'https://yadi.sk/i/4WV2LY7VBYAvgQ';
   <section class="bg-brand-dark" aria-label="Видео с очного интенсива">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
       <div class="video-frame">
-        <video
-          id="highlight-video"
+        <iframe
           class="video-player"
-          muted
-          autoplay
-          loop
-          playsinline
-          preload="metadata"
-          controls
-          aria-label="Техноматика, Иркутск, июль 2026"
-        ></video>
-        <p class="video-hint" id="video-hint">Загрузка видео…</p>
+          src="https://vkvideo.ru/video_ext.php?oid=-231468147&id=456239069&hash=3127174a74979279&hd=3"
+          title="Техноматика, Иркутск, июль 2026"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
       </div>
     </div>
   </section>
@@ -228,6 +276,53 @@ const HIGHLIGHT_VIDEO_PUBLIC = 'https://yadi.sk/i/4WV2LY7VBYAvgQ';
           </ul>
         </div>
       </div>
+
+      <!-- Online schedule -->
+      <div id="online-schedule" class="mt-12 md:mt-16">
+        <div class="mb-6 md:mb-8">
+          <p class="text-xs font-semibold uppercase tracking-widest text-brand-green mb-2">Онлайн-блок · июль</p>
+          <h3 class="text-xl md:text-2xl font-semibold text-white">Расписание онлайн-занятий</h3>
+          <p class="mt-2 text-white/55 text-sm leading-relaxed">
+            Время указано по Иркутску (UTC+8). Начало в 16:00 — по Москве это 11:00.
+          </p>
+        </div>
+
+        <!-- Schedule table -->
+        <div class="schedule-table-wrap">
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th scope="col">Дата</th>
+                <th scope="col">Время (Ирк)</th>
+                <th scope="col">Трек</th>
+                <th scope="col">Эксперт</th>
+                <th scope="col">Ключевой фокус</th>
+                <th scope="col">Ссылки</th>
+              </tr>
+            </thead>
+            <tbody>
+              {onlineSchedule.map((row) => (
+                <tr>
+                  <td class="schedule-col-date">{row.date}</td>
+                  <td class="schedule-col-time">
+                    <span class="schedule-time-main">{row.time}</span>
+                    <span class="schedule-time-note">({row.timeNote})</span>
+                  </td>
+                  <td class="schedule-col-track">{row.track}</td>
+                  <td class="schedule-col-expert">{row.expert}</td>
+                  <td class="schedule-col-focus">{row.focus}</td>
+                  <td class="schedule-col-links">
+                    <div class="schedule-actions">
+                      <a href={row.joinUrl} target="_blank" rel="noopener noreferrer" class="schedule-btn schedule-btn--join">Онлайн</a>
+                      <a href={row.streamUrl} target="_blank" rel="noopener noreferrer" class="schedule-btn schedule-btn--stream">Трансляция</a>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -292,42 +387,6 @@ const HIGHLIGHT_VIDEO_PUBLIC = 'https://yadi.sk/i/4WV2LY7VBYAvgQ';
   </section>
 
 </Layout>
-
-<script define:vars={{ HIGHLIGHT_VIDEO_PUBLIC }}>
-  const video = document.getElementById('highlight-video');
-  const hint = document.getElementById('video-hint');
-  if (video) {
-    const api =
-      'https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=' +
-      encodeURIComponent(HIGHLIGHT_VIDEO_PUBLIC);
-
-    fetch(api)
-      .then((res) => {
-        if (!res.ok) throw new Error('download meta failed');
-        return res.json();
-      })
-      .then((data) => {
-        if (!data?.href) throw new Error('no href');
-        video.src = data.href;
-        video.load();
-        const play = video.play();
-        if (play && typeof play.catch === 'function') {
-          play.catch(() => {
-            if (hint) hint.textContent = 'Нажмите play, чтобы запустить видео';
-          });
-        }
-        if (hint) hint.hidden = true;
-      })
-      .catch(() => {
-        if (hint) {
-          hint.innerHTML =
-            'Не удалось загрузить видео автоматически. <a href="' +
-            HIGHLIGHT_VIDEO_PUBLIC +
-            '" target="_blank" rel="noopener noreferrer">Открыть на Яндекс.Диске</a>';
-        }
-      });
-  }
-</script>
 
 <style>
   .text-hero {
@@ -479,29 +538,13 @@ const HIGHLIGHT_VIDEO_PUBLIC = 'https://yadi.sk/i/4WV2LY7VBYAvgQ';
     box-shadow: 0 20px 60px rgba(0,0,0,0.35);
   }
   .video-player {
+    position: absolute;
+    inset: 0;
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    border: 0;
     background: #0a0b0a;
-  }
-  .video-hint {
-    position: absolute;
-    left: 50%;
-    bottom: 1rem;
-    transform: translateX(-50%);
-    margin: 0;
-    padding: 0.5rem 0.85rem;
-    border-radius: 8px;
-    background: rgba(17,19,18,0.75);
-    color: rgba(255,255,255,0.85);
-    font-size: 0.875rem;
-    text-align: center;
-    max-width: calc(100% - 2rem);
-  }
-  .video-hint a {
-    color: #7CC142;
-    font-weight: 600;
   }
 
   .archive-card {
@@ -544,5 +587,114 @@ const HIGHLIGHT_VIDEO_PUBLIC = 'https://yadi.sk/i/4WV2LY7VBYAvgQ';
   .archive-card-btn {
     align-self: flex-start;
     margin-top: 0.5rem;
+  }
+
+  .schedule-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .schedule-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0.4rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: filter 0.15s, background 0.15s, border-color 0.15s;
+  }
+  .schedule-btn--join {
+    background: #7CC142;
+    color: #111312;
+  }
+  .schedule-btn--join:hover { filter: brightness(0.93); }
+  .schedule-btn--stream {
+    background: transparent;
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.35);
+  }
+  .schedule-btn--stream:hover {
+    border-color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.06);
+  }
+
+  .schedule-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.03);
+  }
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 980px;
+  }
+  .schedule-table th,
+  .schedule-table td {
+    padding: 1rem 1.1rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .schedule-table th {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    background: rgba(255,255,255,0.03);
+    white-space: nowrap;
+  }
+  .schedule-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .schedule-table tbody tr:hover td {
+    background: rgba(124,193,66,0.06);
+  }
+  .schedule-col-date {
+    font-weight: 700;
+    color: #7CC142;
+    white-space: nowrap;
+  }
+  .schedule-col-time {
+    color: rgba(255,255,255,0.6);
+    white-space: nowrap;
+  }
+  .schedule-time-main {
+    display: block;
+    color: rgba(255,255,255,0.75);
+    font-weight: 600;
+  }
+  .schedule-time-note {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.4);
+  }
+  .schedule-col-track {
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.4;
+    max-width: 16rem;
+  }
+  .schedule-col-expert {
+    color: rgba(255,255,255,0.8);
+    white-space: nowrap;
+  }
+  .schedule-col-focus {
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+    font-size: 0.875rem;
+  }
+  .schedule-col-links .schedule-actions {
+    margin-top: 0;
+    flex-direction: column;
+    align-items: stretch;
   }
 </style>
