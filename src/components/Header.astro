@@ -1,6 +1,9 @@
 ---
 import Logo from './Logo.astro';
 import { path } from '../utils/paths';
+
+const ALL_MATERIALS_URL = 'https://disk.yandex.ru/d/Qv6znPxKL8uxeA';
+const MEDIA_ARCHIVE_URL = 'https://disk.yandex.ru/d/12vg88jhsqOIpg';
 ---
 
 <header class="sticky top-0 z-50 backdrop-blur-sm border-b border-white/10 bg-brand-dark/95 transition-colors">
@@ -8,12 +11,28 @@ import { path } from '../utils/paths';
     <Logo />
 
     <!-- Desktop nav only — mobile uses bottom tab bar -->
-    <nav class="hidden md:flex items-center gap-6" aria-label="Основная навигация">
+    <nav class="hidden md:flex items-center gap-5 lg:gap-6" aria-label="Основная навигация">
       <a href={path('/#modules')} class="text-sm font-medium transition-colors text-white/80 hover:text-white">
         Программа
       </a>
       <a href={path('/#materials')} class="text-sm font-medium transition-colors text-white/80 hover:text-white">
         Материалы
+      </a>
+      <a
+        href={ALL_MATERIALS_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm font-medium transition-colors text-white/80 hover:text-white"
+      >
+        Все материалы
+      </a>
+      <a
+        href={MEDIA_ARCHIVE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm font-medium transition-colors text-white/80 hover:text-white"
+      >
+        Фото и видео
       </a>
       <a href={path('/#whats-next')} class="text-sm font-medium transition-colors text-white/80 hover:text-white">
         Что дальше

@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../layouts/Layout.astro';
 import DiamondPattern from '../components/DiamondPattern.astro';
 import LectureCard from '../components/LectureCard.astro';
@@ -31,6 +31,10 @@ const modules = [
     lectures: byModule(3),
   },
 ];
+
+const ALL_MATERIALS_URL = 'https://disk.yandex.ru/d/Qv6znPxKL8uxeA';
+const MEDIA_ARCHIVE_URL = 'https://disk.yandex.ru/d/12vg88jhsqOIpg';
+const HIGHLIGHT_VIDEO_PUBLIC = 'https://yadi.sk/i/4WV2LY7VBYAvgQ';
 ---
 
 <Layout
@@ -41,12 +45,10 @@ const modules = [
 
   <!-- ============ HERO ============ -->
   <section class="relative bg-brand-dark text-white overflow-hidden min-h-0 sm:min-h-[480px] md:min-h-[560px] flex items-center">
-    <!-- Geometric pattern (right half only) -->
     <div class="absolute right-0 top-0 bottom-0 w-2/5 sm:w-1/2 md:w-2/5 opacity-40 sm:opacity-60 pointer-events-none">
       <DiamondPattern variant="hero" />
     </div>
 
-    <!-- Gradient fade so pattern blends with content -->
     <div class="absolute right-0 top-0 bottom-0 w-2/5 sm:w-1/2 md:w-2/5 bg-gradient-to-r from-brand-dark via-brand-dark/80 to-transparent pointer-events-none" aria-hidden="true"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-28 w-full">
@@ -66,18 +68,9 @@ const modules = [
         </p>
 
         <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
-          <a
-            href="#modules"
-            class="btn-primary text-center"
-          >
-            Перейти к материалам
-          </a>
-          <a
-            href={path('/students')}
-            class="btn-outline-white text-center"
-          >
-            Программа для учеников
-          </a>
+          <a href="#modules" class="btn-primary text-center">Перейти к материалам</a>
+          <a href={MEDIA_ARCHIVE_URL} target="_blank" rel="noopener noreferrer" class="btn-outline-white text-center">Фото и видео</a>
+          <a href={path('/students')} class="btn-outline-white text-center">Программа для учеников</a>
         </div>
       </div>
     </div>
@@ -105,26 +98,51 @@ const modules = [
     </div>
   </section>
 
+  <!-- ============ HIGHLIGHT VIDEO ============ -->
+  <section class="bg-brand-dark" aria-label="Видео с очного интенсива">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+      <div class="video-frame">
+        <video
+          id="highlight-video"
+          class="video-player"
+          muted
+          autoplay
+          loop
+          playsinline
+          preload="metadata"
+          controls
+          aria-label="Техноматика, Иркутск, июль 2026"
+        ></video>
+        <p class="video-hint" id="video-hint">Загрузка видео…</p>
+      </div>
+    </div>
+  </section>
+
   <DiamondPattern variant="divider" />
 
   <!-- ============ MODULES / MATERIALS ============ -->
   <section id="modules" class="bg-white" aria-labelledby="modules-heading">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 md:pt-20 pb-4">
-      <div class="mb-14 text-center">
+      <div class="mb-10 md:mb-14 text-center">
         <span class="chip-dark mb-4 inline-block">Очный интенсив · 3 дня</span>
-        <h2 id="modules-heading" class="text-h2 font-semibold text-ink">
-          Материалы по модулям
-        </h2>
+        <h2 id="modules-heading" class="text-h2 font-semibold text-ink">Материалы по модулям</h2>
         <p class="mt-4 text-muted max-w-xl mx-auto text-base leading-relaxed">
           Три модуля очного обучения. Презентационные материалы, конспекты лекций, дополнительные и самостоятельные работы — по каждой теме.
         </p>
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href={ALL_MATERIALS_URL} target="_blank" rel="noopener noreferrer" class="btn-primary text-center">
+            Все материалы в одном месте
+          </a>
+          <a href={MEDIA_ARCHIVE_URL} target="_blank" rel="noopener noreferrer" class="btn-dark text-center">
+            Фото и видео
+          </a>
+        </div>
       </div>
     </div>
 
     <div id="materials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 md:pb-24 flex flex-col gap-10 md:gap-20">
       {modules.map(mod => (
         <div>
-          <!-- Module header -->
           <div class="flex flex-col sm:flex-row sm:items-start gap-4 mb-8">
             <div class="flex-1">
               <div class="flex items-center gap-3 mb-2">
@@ -136,7 +154,6 @@ const modules = [
             </div>
           </div>
 
-          <!-- Lecture cards grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {mod.lectures.map(lecture => (
               <LectureCard
@@ -162,16 +179,13 @@ const modules = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24">
       <div class="max-w-2xl mb-14">
         <span class="chip-green mb-4 inline-block">После очного интенсива</span>
-        <h2 id="next-heading" class="text-h2 font-semibold text-white">
-          Что дальше
-        </h2>
+        <h2 id="next-heading" class="text-h2 font-semibold text-white">Что дальше</h2>
         <p class="mt-4 text-white/60 text-base leading-relaxed">
           Очный модуль — фундамент. Программа продолжается в двух дополнительных форматах.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Module 4 -->
         <div class="bg-white/5 border border-white/10 rounded-card p-8">
           <div class="flex items-center gap-3 mb-4">
             <span class="module-number-light">4</span>
@@ -193,7 +207,6 @@ const modules = [
           </ul>
         </div>
 
-        <!-- Module 5 -->
         <div class="bg-white/5 border border-white/10 rounded-card p-8">
           <div class="flex items-center gap-3 mb-4">
             <span class="module-number-light">5</span>
@@ -226,9 +239,7 @@ const modules = [
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24">
       <div class="max-w-2xl">
         <span class="chip-dark mb-5 inline-block">Дополнительное образование</span>
-        <h2 id="students-heading" class="text-h2 font-semibold text-ink mb-4">
-          Программа для школьников
-        </h2>
+        <h2 id="students-heading" class="text-h2 font-semibold text-ink mb-4">Программа для школьников</h2>
         <p class="text-ink/70 text-base leading-relaxed mb-8 max-w-lg">
           Программа дополнительного образования для учеников по ключевым направлениям цифровых компетенций.
         </p>
@@ -246,14 +257,77 @@ const modules = [
           ))}
         </div>
 
-        <a href={path('/students')} class="btn-dark">
-          Открыть программу →
+        <a href={path('/students')} class="btn-dark">Открыть программу →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARCHIVES ============ -->
+  <section id="archives" class="bg-white" aria-labelledby="archives-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <div class="text-center mb-10 md:mb-12">
+        <span class="chip-dark mb-4 inline-block">Архивы очного модуля</span>
+        <h2 id="archives-heading" class="text-h2 font-semibold text-ink">Материалы, фото и видео</h2>
+        <p class="mt-4 text-muted max-w-xl mx-auto text-base leading-relaxed">
+          Полный пакет материалов курса и медиаархив интенсива — в одном месте на Яндекс.Диске.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto">
+        <a href={ALL_MATERIALS_URL} target="_blank" rel="noopener noreferrer" class="archive-card">
+          <span class="archive-card-label">Яндекс.Диск</span>
+          <h3 class="archive-card-title">Все материалы в одном месте</h3>
+          <p class="archive-card-text">Презентации, раздатки и файлы по дням очного интенсива.</p>
+          <span class="btn-primary archive-card-btn">Открыть архив →</span>
+        </a>
+
+        <a href={MEDIA_ARCHIVE_URL} target="_blank" rel="noopener noreferrer" class="archive-card">
+          <span class="archive-card-label">Медиа</span>
+          <h3 class="archive-card-title">Фото и видео в одном месте</h3>
+          <p class="archive-card-text">Фотографии и видеозаписи с очного модуля в Иркутске.</p>
+          <span class="btn-primary archive-card-btn">Открыть медиа →</span>
         </a>
       </div>
     </div>
   </section>
 
 </Layout>
+
+<script define:vars={{ HIGHLIGHT_VIDEO_PUBLIC }}>
+  const video = document.getElementById('highlight-video');
+  const hint = document.getElementById('video-hint');
+  if (video) {
+    const api =
+      'https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=' +
+      encodeURIComponent(HIGHLIGHT_VIDEO_PUBLIC);
+
+    fetch(api)
+      .then((res) => {
+        if (!res.ok) throw new Error('download meta failed');
+        return res.json();
+      })
+      .then((data) => {
+        if (!data?.href) throw new Error('no href');
+        video.src = data.href;
+        video.load();
+        const play = video.play();
+        if (play && typeof play.catch === 'function') {
+          play.catch(() => {
+            if (hint) hint.textContent = 'Нажмите play, чтобы запустить видео';
+          });
+        }
+        if (hint) hint.hidden = true;
+      })
+      .catch(() => {
+        if (hint) {
+          hint.innerHTML =
+            'Не удалось загрузить видео автоматически. <a href="' +
+            HIGHLIGHT_VIDEO_PUBLIC +
+            '" target="_blank" rel="noopener noreferrer">Открыть на Яндекс.Диске</a>';
+        }
+      });
+  }
+</script>
 
 <style>
   .text-hero {
@@ -264,9 +338,7 @@ const modules = [
     word-break: normal;
     hyphens: none;
   }
-  .hero-nowrap {
-    white-space: nowrap;
-  }
+  .hero-nowrap { white-space: nowrap; }
   .text-h2 {
     font-size: clamp(2rem, 3.5vw, 2.5rem);
     line-height: 1.2;
@@ -337,6 +409,7 @@ const modules = [
   .btn-primary {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     padding: 14px 28px;
     background: #7CC142;
     color: #111312;
@@ -352,6 +425,7 @@ const modules = [
   .btn-outline-white {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     padding: 14px 28px;
     background: transparent;
     color: #FFFFFF;
@@ -371,6 +445,7 @@ const modules = [
   .btn-dark {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     padding: 14px 28px;
     background: #111312;
     color: #FFFFFF;
@@ -392,5 +467,82 @@ const modules = [
     font-size: 13px;
     font-weight: 500;
     border-radius: 100px;
+  }
+
+  .video-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: #0a0b0a;
+    aspect-ratio: 16 / 9;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+  .video-player {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #0a0b0a;
+  }
+  .video-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 1rem;
+    transform: translateX(-50%);
+    margin: 0;
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    background: rgba(17,19,18,0.75);
+    color: rgba(255,255,255,0.85);
+    font-size: 0.875rem;
+    text-align: center;
+    max-width: calc(100% - 2rem);
+  }
+  .video-hint a {
+    color: #7CC142;
+    font-weight: 600;
+  }
+
+  .archive-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.75rem;
+    border: 1px solid #E5E5E3;
+    border-radius: 16px;
+    background: #fff;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(17,19,18,0.06);
+  }
+  .archive-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(17,19,18,0.1);
+  }
+  .archive-card-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6B6F6E;
+  }
+  .archive-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111312;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+  .archive-card-text {
+    margin: 0;
+    color: #6B6F6E;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    flex: 1;
+  }
+  .archive-card-btn {
+    align-self: flex-start;
+    margin-top: 0.5rem;
   }
 </style>
