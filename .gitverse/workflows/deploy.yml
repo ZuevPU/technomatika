@@ -1,44 +1,20 @@
-# Публикация через папку docs (ветка master).
-# Экшены gitverse/upload-pages-artifact и gitverse/deploy-pages
-# сейчас недоступны на runner (Repository not found / Unauthorized),
-# поэтому workflow только проверяет сборку.
-# В настройках репозитория: Страницы → источник «Ветка» → папка docs.
+# Сайт публикуется из папки docs/ на ветке master.
+# CI-сборка на GitVerse отключена: runner падает с
+# "no space left on device" при клонировании actions/checkout.
+# В настройках: Страницы → источник «Ветка» → папка docs.
 
-name: Build for GitVerse Pages
+name: GitVerse Pages (docs branch)
 
 on:
   push:
     branches: [master]
   workflow_dispatch:
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
-  build:
+  notice:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build site into docs/
-        env:
-          ASTRO_SITE: https://mashukOnline.gitverse.site
-          ASTRO_BASE: /technomatics
-        run: npm run build:pages
-
-      - name: Verify docs artifact
+      - name: Pages publish mode
         run: |
-          test -f docs/index.html
-          test -f docs/.nojekyll
-          echo "docs/ ready. Publish via Pages source: Branch → docs"
+          echo "GitVerse Pages: branch master / folder docs"
+          echo "Static site is committed in docs/ — no runner build needed."

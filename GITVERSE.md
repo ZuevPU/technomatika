@@ -10,15 +10,14 @@
 4. **Папка:** `docs`
 5. Сохраните
 
-> Экшены `gitverse/upload-pages-artifact` и `gitverse/deploy-pages` на runner сейчас недоступны
-> (`Repository not found` / `Unauthorized`). Поэтому публикация идёт из папки `docs`.
-> Workflow в `.gitverse/workflows/` только проверяет сборку.
+> CI-сборка на GitVerse отключена: runner часто падает с `no space left on device`.
+> Сайт уже лежит в `docs/` и публикуется напрямую из ветки.
 
 ## Обновление сайта
 
 ```bash
 npm run build:pages
-git add docs/ .gitverse/workflows/
+git add docs/
 git commit -m "Update published site"
 git push origin master
 ```
