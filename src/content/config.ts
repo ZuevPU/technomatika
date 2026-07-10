@@ -8,7 +8,7 @@ const lecturesCollection = defineCollection({
     code: z.string(),
     title: z.string(),
     summary: z.string(),
-    duration: z.string(),
+    duration: z.string().optional(),
     practiceTitle: z.string().optional(),
     slidesUrl: z.string().nullable().default(null),
     transcriptUrl: z.string().nullable().default(null),
